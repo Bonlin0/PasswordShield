@@ -13,12 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity"
+            >
+        </activity>
+        <activity
             android:name=".PasswordGeneratorActivity"
             android:label="@string/menu_password_generator"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            ></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/password_vault"

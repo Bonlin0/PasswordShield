@@ -90,8 +90,13 @@ public class MainActivity extends AppCompatActivity
             startActivity(passwordGeneratorIntent);
 
         } else if (id == R.id.nav_menu_settings) {
-
+            Intent settingsIntent = new Intent
+                    (this, SettingsActivity.class);
+            startActivity(settingsIntent);
+        } else if (id == R.id.nav_log_out) {
+            finish();
         }
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout_main);
         drawer.closeDrawer(GravityCompat.START);
