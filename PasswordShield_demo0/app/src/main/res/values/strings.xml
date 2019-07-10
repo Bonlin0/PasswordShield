@@ -8,7 +8,10 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
+    <string name="password_vault">Password Vault</string>
+    <string name="log_out">Log out</string>
     <string name="menu_password_generator">Password Generator</string>
+    <string name="password_generator">Password Generator</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
@@ -18,4 +21,11 @@
     <string name="place_holder">A place holder.</string>
     <string name="refresh">Refresh</string>
     <string name="copy">Copy</string>
+    <string name="password_length">Length</string>
+    <string name="password_AZ">A-Z</string>
+    <string name="password_az">a-z</string>
+    <string name="password_numbers">0-9</string>
+    <string name="passwprd_punctuation">!@#$%^&amp;*</string>
+
+
 </resources>
