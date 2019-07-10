@@ -93,8 +93,9 @@ public class MainActivity extends AppCompatActivity
             Intent settingsIntent = new Intent
                     (this, SettingsActivity.class);
             startActivity(settingsIntent);
-        } else if (id == R.id.nav_log_out) {
+        } else if (id == R.id.nav_lock_now) {
             finish();
+            //todo 补充锁定方法，而不是直接退出
         }
 
 
