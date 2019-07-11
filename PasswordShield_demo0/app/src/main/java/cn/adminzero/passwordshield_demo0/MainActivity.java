@@ -14,10 +14,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private  String[] data={"Apple","Banana","Orange","Watermelon","Pear",
+            "Grape","Pineapple","Strawberry", "Cherry","Mango","Banana","Orange",
+            "Watermelon","Pear","Grape","Pineapple","Strawberry","Cherry","Mango"};
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +32,17 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+        ListView listView=(ListView) findViewById(R.id.list_view);
+        adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data);
+        listView.setAdapter(adapter);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //        .setAction("Action", null).show();
+                Intent intent_to_Add=new Intent(MainActivity.this,AddAccountActivity.class);
+                startActivity(intent_to_Add);
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout_main);
@@ -40,6 +52,8 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override

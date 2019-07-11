@@ -17,8 +17,8 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_password_generator);
         setSupportActionBar(toolbar);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        //ActionBar actionBar = getSupportActionBar();
+        //actionBar.setDisplayHomeAsUpEnabled(true);
 
     }
 }
