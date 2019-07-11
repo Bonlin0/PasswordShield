@@ -42,6 +42,7 @@
     <string name="time_to_lock">Time to lock</string>
     <string name="unlock_with_fingerprint">Unlock with fingerprint</string>
     <string name="lock_now">Lock now</string>
+    <string name="unlock_with_face">Unlock with face</string>
 
     <string name="one_minute">1 minute</string>
     <string name="fifteen_minutes">15 minute</string>
@@ -52,18 +53,25 @@
     <string name="change_username">Change username</string>
     <string name="log_out_preference">Log out</string>
 
-    <string name="autofill">Autofill</string>
+    <string name="auto_fill">Autofill</string>
 
     <!-- Others Preferences -->
     <string name="theme">Theme</string>
     <string name="about">About</string>
     <string name="help">Help</string>
 
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    
+    <!-- ActionBar -->
+    <string name="action_help">Help</string>
+    <string name="action_about">About</string>
 
 
 </resources>

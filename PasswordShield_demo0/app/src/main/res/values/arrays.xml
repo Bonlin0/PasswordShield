@@ -24,4 +24,17 @@
         <item>@string/one_hour</item>
         <item>@string/never</item>
     </string-array>
+
+    <!-- Themes Preference -->
+    <string-array name="themes_entries">
+        <item>@string/light</item>
+        <item>@string/dark</item>
+    </string-array>
+
+    <string-array name="themes_values">
+        <item>@string/light</item>
+        <item>@string/dark</item>
+    </string-array>
+
+
 </resources>
