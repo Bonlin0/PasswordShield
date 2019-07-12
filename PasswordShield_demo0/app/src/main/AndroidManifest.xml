@@ -13,21 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".AddAccountActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName=".MainActivity"
-            ></activity><!-- 隐藏标题栏-->
+            android:name=".CreateUserActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/create_user"></activity>
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity
-            android:name=".PasswordGeneratorActivity"
-            android:label="@string/menu_password_generator"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/password_vault"
+            android:name=".AuthenticationActivity"
+            android:label="@string/master_password_authentication"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,6 +26,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AddAccountActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- 隐藏标题栏 -->
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".PasswordGeneratorActivity"
+            android:label="@string/menu_password_generator"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/password_vault"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

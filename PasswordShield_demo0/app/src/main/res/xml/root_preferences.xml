@@ -56,7 +56,8 @@
             android:key="edit_username"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/change_username" />
+            android:title="@string/change_username"
+            app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
 
@@ -67,7 +68,8 @@
             android:entries="@array/themes_entries"
             android:entryValues="@array/themes_values"
             android:key="list_theme"
-            android:title="@string/theme" />
+            android:title="@string/theme"
+            app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
 

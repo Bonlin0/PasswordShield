@@ -68,10 +68,25 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    
+
     <!-- ActionBar -->
     <string name="action_help">Help</string>
     <string name="action_about">About</string>
 
+    <!-- Authentication activity -->
+    <string name="master_password">Master Password</string>
+    <string name="master_password_hint">Password Shield is locked now. 
+        Please enter your master password to unlock it.</string>
+    <string name="confirm">Confirm</string>
+    <string name="master_password_authentication">Master Password Authentication</string>
+
+    <string name="exit">Exit</string>
+
+    <!-- Create User activity -->
+    <string name="create_user_hint">It seems that it\'s your first time to use Password. \nWe
+        use a Master Password to assure that only you can use this App. \n
+        Please enter the Master password that you can remember. Believe us, that will be the only
+        password you need to remember!</string>
+    <string name="create_user">Create an account</string>
 
 </resources>

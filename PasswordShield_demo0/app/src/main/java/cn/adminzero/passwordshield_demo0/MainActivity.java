@@ -79,10 +79,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Toast.makeText(MainActivity.this, R.string.action_settings, Toast.LENGTH_SHORT).show();
+        if (id == R.id.action_about) {
+            Toast.makeText(MainActivity.this, R.string.about, Toast.LENGTH_SHORT).show();
             return true;
         }
+        else if (id == R.id.action_help) {
+            Toast.makeText(MainActivity.this, R.string.help, Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -107,7 +112,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(settingsIntent);
         } else if (id == R.id.nav_lock_now) {
             finish();
-            //todo 补充锁定方法，而不是直接退出
+            //TODO 补充锁定方法，而不是直接退出
         }
 
 
