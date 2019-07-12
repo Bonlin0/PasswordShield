@@ -17,14 +17,52 @@ import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import android.os.Handler;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+
+import android.view.MenuItem;
+
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import android.view.Menu;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "MainActivity_debug";
     private  String[] data={"Apple","Banana","Orange","Watermelon","Pear",
-            "Grape","Pineapple","Strawberry", "Cherry","Mango","Banana","Orange",
-            "Watermelon","Pear","Grape","Pineapple","Strawberry","Cherry","Mango"};
-    ArrayAdapter<String> adapter;
+            "Grape","Pineapple","Strawberry", "Cherry","Mango"};
+    private List<Account> accountList= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +70,29 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        ListView listView=(ListView) findViewById(R.id.list_view);
+        /*添加适配器的这段代码必须放在setContentView 的后面,不然会闪退*/
+      /*  ListView listView=(ListView) findViewById(R.id.list_view);
         adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data);
         listView.setAdapter(adapter);
+        */
+        initAccounts();
+        MainActivity.List_adapter list_adapter= new MainActivity.List_adapter(this, R.layout.listview_image,accountList);
+        ListView listView=(ListView) findViewById(R.id.mainlist_view);
+        listView.setAdapter(list_adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MainActivity.Account account=accountList.get(position);
+                Toast.makeText(MainActivity.this,account.getName(),Toast.LENGTH_LONG).show();
+                Intent intent_ToModifyActivity=new Intent(MainActivity.this,ModifyActivity.class);
+                intent_ToModifyActivity.putExtra("username",account.getUsername());
+                intent_ToModifyActivity.putExtra("password",account.getPassword());
+                intent_ToModifyActivity.putExtra("website",account.getWebsite());
+                intent_ToModifyActivity.putExtra("note",account.getNote());
+                startActivity(intent_ToModifyActivity);
+            }
+        });
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,5 +177,129 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout_main);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private void initAccounts(){
+        for(int i=0;i<data.length;i++){
+            MainActivity.Account list_init;
+            int c= (int)data[i].charAt(0);
+            Log.d(TAG, String.valueOf(c)+data[i].charAt(0));
+            switch (c){//字符不能直接作为switch的选项
+                case 65:  list_init=new MainActivity.Account(data[i],R.drawable.a);break;
+                case 66:  list_init=new MainActivity.Account(data[i],R.drawable.b);break;
+                case 67:  list_init=new MainActivity.Account(data[i],R.drawable.c);break;
+                case 68:  list_init=new MainActivity.Account(data[i],R.drawable.d);break;
+                case 69:  list_init=new MainActivity.Account(data[i],R.drawable.e);break;
+                case 70:  list_init=new MainActivity.Account(data[i],R.drawable.f);break;
+                case 71:  list_init=new MainActivity.Account(data[i],R.drawable.g);break;
+                case 72:  list_init=new MainActivity.Account(data[i],R.drawable.h);break;
+                case 73:  list_init=new MainActivity.Account(data[i],R.drawable.i);break;
+                case 74:  list_init=new MainActivity.Account(data[i],R.drawable.j);break;
+                case 75:  list_init=new MainActivity.Account(data[i],R.drawable.k);break;
+                case 76:  list_init=new MainActivity.Account(data[i],R.drawable.l);break;
+                case 77:  list_init=new MainActivity.Account(data[i],R.drawable.m);break;
+                case 78:  list_init=new MainActivity.Account(data[i],R.drawable.n);break;
+                case 79:  list_init=new MainActivity.Account(data[i],R.drawable.o);break;
+                case 80:  list_init=new MainActivity.Account(data[i],R.drawable.p);break;
+                case 81:  list_init=new MainActivity.Account(data[i],R.drawable.q);break;
+                case 82:  list_init=new MainActivity.Account(data[i],R.drawable.r);break;
+                case 83:  list_init=new MainActivity.Account(data[i],R.drawable.s);break;
+                case 84:  list_init=new MainActivity.Account(data[i],R.drawable.t);break;
+                case 85:  list_init=new MainActivity.Account(data[i],R.drawable.u);break;
+                case 86:  list_init=new MainActivity.Account(data[i],R.drawable.v);break;
+                case 87:  list_init=new MainActivity.Account(data[i],R.drawable.w);break;
+                case 88:  list_init=new MainActivity.Account(data[i],R.drawable.x);break;
+                case 89:  list_init=new MainActivity.Account(data[i],R.drawable.y);break;
+                case 90:  list_init=new MainActivity.Account(data[i],R.drawable.z);break;
+                case 97:  list_init=new MainActivity.Account(data[i],R.drawable.a);break;
+                case 98:  list_init=new MainActivity.Account(data[i],R.drawable.b);break;
+                case 99:  list_init=new MainActivity.Account(data[i],R.drawable.c);break;
+                case 100:  list_init=new MainActivity.Account(data[i],R.drawable.d);break;
+                case 101:  list_init=new MainActivity.Account(data[i],R.drawable.e);break;
+                case 102:  list_init=new MainActivity.Account(data[i],R.drawable.f);break;
+                case 103:  list_init=new MainActivity.Account(data[i],R.drawable.g);break;
+                case 104:  list_init=new MainActivity.Account(data[i],R.drawable.h);break;
+                case 105:  list_init=new MainActivity.Account(data[i],R.drawable.i);break;
+                case 106:  list_init=new MainActivity.Account(data[i],R.drawable.j);break;
+                case 107:  list_init=new MainActivity.Account(data[i],R.drawable.k);break;
+                case 108:  list_init=new MainActivity.Account(data[i],R.drawable.l);break;
+                case 109:  list_init=new MainActivity.Account(data[i],R.drawable.m);break;
+                case 110:  list_init=new MainActivity.Account(data[i],R.drawable.n);break;
+                case 111:  list_init=new MainActivity.Account(data[i],R.drawable.o);break;
+                case 112:  list_init=new MainActivity.Account(data[i],R.drawable.p);break;
+                case 113:  list_init=new MainActivity.Account(data[i],R.drawable.q);break;
+                case 114:  list_init=new MainActivity.Account(data[i],R.drawable.r);break;
+                case 115:  list_init=new MainActivity.Account(data[i],R.drawable.s);break;
+                case 116:  list_init=new MainActivity.Account(data[i],R.drawable.t);break;
+                case 117:  list_init=new MainActivity.Account(data[i],R.drawable.u);break;
+                case 118:  list_init=new MainActivity.Account(data[i],R.drawable.v);break;
+                case 119:  list_init=new MainActivity.Account(data[i],R.drawable.w);break;
+                case 120:  list_init=new MainActivity.Account(data[i],R.drawable.x);break;
+                case 121:  list_init=new MainActivity.Account(data[i],R.drawable.y);break;
+                case 122:  list_init=new MainActivity.Account(data[i],R.drawable.z);break;
+                default:  list_init=new MainActivity.Account(data[i],R.drawable.add);break;
+            }
+            accountList.add(list_init);
+        }
+
+    }
+
+    public class Account{
+        private String name;
+        private String username;
+        private String password;
+        private String website;
+        private String note;
+        private  int imageId;
+        public Account(String name,int imageId){
+            this.name=name;
+            this.imageId=imageId;
+        }
+        public void SetAccount(String username,String password,String website,String note){
+            this.username=username;
+            this.password=password;
+            this.website=website;
+            this.note=note;
+        }
+        public String getUsername()
+        {
+            return  username;
+        }
+        public String getPassword()
+        {
+            return  password;
+        }
+        public String getWebsite()
+        {
+            return  website;
+        }
+        public String getNote()
+        {
+            return  note;
+        }
+        public String getName()
+        {
+            return  name;
+        }
+        public  int getImageId(){ return imageId; }
+
+    }
+    public class List_adapter extends ArrayAdapter<MainActivity.Account>{
+        private int resourceId;
+        public List_adapter(Context context, int textViewResourseId, List<MainActivity.Account> objects){
+            super(context,textViewResourseId,objects);
+            resourceId=textViewResourseId;
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent){
+            MainActivity.Account account=getItem(position);//获取当前项的Account实例
+            View view= LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
+            ImageView accountImage=(ImageView) view.findViewById(R.id.list_image);
+            TextView accountName=(TextView) view.findViewById(R.id.list_name);
+            accountImage.setImageResource(account.getImageId());
+            accountName.setText(account.getName());
+            return view;
+        }
+
+
     }
 }
