@@ -25,7 +25,7 @@
     <string name="password_AZ">A-Z</string>
     <string name="password_az">a-z</string>
     <string name="password_numbers">0-9</string>
-    <string name="passwprd_punctuation">!@#$%^&amp;*</string>
+    <string name="password_punctuation">!@#$%^&amp;*</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
@@ -88,5 +88,8 @@
         Please enter the Master password that you can remember. Believe us, that will be the only
         password you need to remember!</string>
     <string name="create_user">Create an account</string>
+
+    <string name="password_generator_no_switch_on">None of the Switches is open now.
+        Turn on some of them and retry.</string>
 
 </resources>
