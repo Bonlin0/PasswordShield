@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleLocalSettings">
+    <option name="projectSyncType">
+      <map>
+        <entry key="$USER_HOME$/AndroidStudioProjects/Crackme" value="PREVIEW" />
+        <entry key="$USER_HOME$/AndroidStudioProjects/PinyinIME" value="PREVIEW" />
+        <entry key="$USER_HOME$/AndroidStudioProjects/PinyinIME-master" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/AAA_test_enc" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/Cryption" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/PinyinIME-master" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/UOpenCryption-master" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/Unblock163MusicClient-Xposed-master" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/XposedHookDemo-master" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/android-CommitContentSampleIME-master" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/test/Cryption" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/trime-develop" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/trime-develop 2" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/xinandasai-master 2/AnnoyWechat" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/xinandasai-master/WechatHook" value="PREVIEW" />
+        <entry key="$USER_HOME$/Downloads/xinandasai-renpinan/AnnoyWechat" value="PREVIEW" />
+        <entry key="$USER_HOME$/github/AnnoyWechat" value="PREVIEW" />
+        <entry key="$USER_HOME$/github/BiometricPromptDemo" value="PREVIEW" />
+        <entry key="$USER_HOME$/github/PasswordShield/PasswordShield_demo0" value="PREVIEW" />
+        <entry key="$USER_HOME$/github/XposedWechatHelper" value="PREVIEW" />
+        <entry key="$USER_HOME$/github/test/AnnoyWechat" value="PREVIEW" />
+        <entry key="$USER_HOME$/github/xinandasai/AnnoyWechat" value="PREVIEW" />
+        <entry key="$USER_HOME$/github/xinandasai/database" value="PREVIEW" />
+        <entry key="$USER_HOME$/github/xinandasai/layout_test" value="PREVIEW" />
+      </map>
+    </option>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="android.project.structure.last.selected" value="SDK Location" />
+    <property name="android.project.structure.proportion" value="0.15" />
+    <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+</project>
