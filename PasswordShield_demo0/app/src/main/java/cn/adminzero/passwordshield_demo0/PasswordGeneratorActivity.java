@@ -72,11 +72,10 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
                 refreshPassword();
             }
 
-
         });
-
         clipboardManager = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-
+        //在活动启动时，调用刷新口令函数
+        refreshPassword();
     }
 
     private void refreshPassword(){

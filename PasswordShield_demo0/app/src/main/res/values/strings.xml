@@ -83,7 +83,7 @@
     <string name="exit">Exit</string>
 
     <!-- Create User activity -->
-    <string name="create_user_hint">It seems that it\'s your first time to use Password. \nWe
+    <string name="create_user_hint">It seems that it\'s your first time to use Password Shield. \nWe
         use a Master Password to assure that only you can use this App. \n
         Please enter the Master password that you can remember. Believe us, that will be the only
         password you need to remember!</string>
