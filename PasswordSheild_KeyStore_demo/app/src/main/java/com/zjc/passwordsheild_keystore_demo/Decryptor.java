@@ -14,7 +14,6 @@ import java.security.InvalidKeyException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 
@@ -31,6 +30,7 @@ class Decryptor {
     //采用对称加密算法
     private static final String TRANSFORMATION = "AES/GCM/NoPadding";
     private static final String ANDROID_KEY_STORE = "AndroidKeyStore";
+    private static final String Alias = "PasswordSheild";
 
     private KeyStore keyStore;
 
@@ -46,8 +46,9 @@ class Decryptor {
         keyStore.load(null);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)//sdk 19
-    String decryptData(final String alias, final byte[] encryptedData, final byte[] encryptionIv)
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//sdk 19
+    String decryptData(final byte[] encryptedData, final byte[] encryptionIv)
             throws UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException,
             NoSuchPaddingException, InvalidKeyException, IOException,
             BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
@@ -57,14 +58,14 @@ class Decryptor {
         //spec 加密拓展对象参数
         final GCMParameterSpec spec = new GCMParameterSpec(128, encryptionIv);
         //解密模式 获取解密秘钥 spec
-        cipher.init(Cipher.DECRYPT_MODE, getSecretKey(alias), spec);
+        cipher.init(Cipher.DECRYPT_MODE, getSecretKey(), spec);
         // do final 返回字符串 new String()
         return new String(cipher.doFinal(encryptedData), "UTF-8");
     }
 
-    private SecretKey getSecretKey(final String alias) throws NoSuchAlgorithmException,
+    private SecretKey getSecretKey() throws NoSuchAlgorithmException,
             UnrecoverableEntryException, KeyStoreException {
         //获取解密秘钥
-        return ((KeyStore.SecretKeyEntry) keyStore.getEntry(alias, null)).getSecretKey();
+        return ((KeyStore.SecretKeyEntry) keyStore.getEntry(Alias, null)).getSecretKey();
     }
 }

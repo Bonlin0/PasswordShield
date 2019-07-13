@@ -6,7 +6,6 @@ import android.security.KeyPairGeneratorSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,7 +26,6 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.SignatureException;
 import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.security.interfaces.RSAPrivateKey;
@@ -40,7 +38,6 @@ import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.security.auth.x500.X500Principal;
 
@@ -48,113 +45,120 @@ import static com.zjc.passwordsheild_keystore_demo.util.UtilLog.d;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static final String ANDROIDKEYSTORE = "AndroidKeyStore";
     String TAG = "MainActivity";
     private TextView textShow;
     private Button encrypt;
     private Button decrypt;
     private EditText dataText;
-
-
     private Encryptor encryptor;
     private Decryptor decryptor;
-
-
     private KeyStore mStore;
-    private static final String ANDROIDKEYSTORE = "AndroidKeyStore";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        test();
+        String alisa = "PasswordSheild_zjc";
+        String zjc1 = "qwewqeqweqweqw`12121212e";
+        String zjc2 = "qwewqeqweqwewqe123213wq";
+        String zjc3 = "as3453ndjadjaskdjkad";
+        String zjc4 = "asdnsakjnd657sakjdnsajndkjasn";
+        String zjc1_ciper = EncryUtils.getInstance().encryptString(zjc1, alisa);
+        String zjc2_ciper = EncryUtils.getInstance().encryptString(zjc2, alisa);
+        String zjc3_ciper = EncryUtils.getInstance().encryptString(zjc3, alisa);
+        String zjc4_ciper = EncryUtils.getInstance().encryptString(zjc4, alisa);
+
+        d(zjc1 + "enc-->" + zjc1_ciper);
+        d(zjc2 + "enc-->" + zjc2_ciper);
+        d(zjc3 + "enc-->" + zjc3_ciper);
+        d(zjc4 + "enc-->" + zjc4_ciper);
+
+        String zjc1_plainText = EncryUtils.getInstance().decryptString(zjc1_ciper, alisa);
+        String zjc2_plainText = EncryUtils.getInstance().decryptString(zjc2_ciper, alisa);
+        String zjc3_plainText = EncryUtils.getInstance().decryptString(zjc3_ciper, alisa);
+        String zjc4_plainText = EncryUtils.getInstance().decryptString(zjc4_ciper, alisa);
+
+        d(zjc1_ciper + "enc-->" + zjc1);
+        d(zjc2_ciper + "enc-->" + zjc2);
+        d(zjc3_ciper + "enc-->" + zjc3);
+        d(zjc4_ciper + "enc-->" + zjc4);
+
+
+//        test();
 //        testKeyStore();
-        dataText = (EditText) findViewById(R.id.data);
-        encrypt = (Button) findViewById(R.id.encrypt);
-        decrypt = (Button) findViewById(R.id.decrypt);
-        textShow = (TextView) findViewById(R.id.text);
-
-        encryptor = new Encryptor();
-
-        try {
-            decryptor = new Decryptor();
-        } catch (CertificateException | NoSuchAlgorithmException | KeyStoreException |
-                IOException e) {
-            e.printStackTrace();
-        }
-
-        encrypt.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                encryptText();
-            }
-        });
-
-        decrypt.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onClick(View v) {
-                decryptText();
-            }
-        });
+//        dataText = (EditText) findViewById(R.id.data);
+//        encrypt = (Button) findViewById(R.id.encrypt);
+//        decrypt = (Button) findViewById(R.id.decrypt);
+//        textShow = (TextView) findViewById(R.id.text);
+//
+//        encryptor = new Encryptor();
+//
+//        try {
+//            decryptor = new Decryptor();
+//        } catch (CertificateException | NoSuchAlgorithmException | KeyStoreException |
+//                IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        encrypt.setOnClickListener(new View.OnClickListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.M)
+//            @Override
+//            public void onClick(View v) {
+//                encryptText();
+//            }
+//        });
+//
+//        decrypt.setOnClickListener(new View.OnClickListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//            @Override
+//            public void onClick(View v) {
+//                decryptText();
+//            }
+//        });
     }
 
-    private void decryptText() {
-        try {
-            textShow.setText(decryptor
-                    .decryptData(TAG, encryptor.getEncryption(), encryptor.getIv()));
-        } catch (UnrecoverableEntryException | NoSuchAlgorithmException |
-                KeyStoreException | NoSuchPaddingException |
-                IOException | InvalidKeyException e) {
-            Log.e(TAG, "decryptData() called with: " + e.getMessage(), e);
-        } catch (IllegalBlockSizeException | BadPaddingException | InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void decryptText() {
+//        try {
+//            textShow.setText(decryptor
+//                    .decryptData(encryptor.getEncryption(), encryptor.getIv()));
+//        } catch (UnrecoverableEntryException | NoSuchAlgorithmException |
+//                KeyStoreException | NoSuchPaddingException |
+//                IOException | InvalidKeyException e) {
+//            Log.e(TAG, "decryptData() called with: " + e.getMessage(), e);
+//        } catch (IllegalBlockSizeException | BadPaddingException | InvalidAlgorithmParameterException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
+    /**
+     * 输入明文字符串
+     * 返回密文字符串
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private void encryptText() {
+    private String encryptText(String ciperText) {
 
         try {
             final byte[] encryptedText = encryptor
-                    .encryptText(TAG, dataText.getText().toString());
-            textShow.setText(Base64.encodeToString(encryptedText, Base64.DEFAULT));
-        } catch (UnrecoverableEntryException | NoSuchAlgorithmException | NoSuchProviderException |
-                KeyStoreException | IOException | NoSuchPaddingException | InvalidKeyException e) {
+                    .encryptText(ciperText);
+            String plainText = Base64.encodeToString(encryptedText, Base64.DEFAULT);
+            d(ciperText + "--->" + plainText);
+            return ciperText;
+        } catch (NoSuchAlgorithmException | NoSuchProviderException |
+                IOException | NoSuchPaddingException | InvalidKeyException e) {
             Log.e(TAG, "onClick() called with: " + e.getMessage(), e);
-        } catch (InvalidAlgorithmParameterException | SignatureException |
+        } catch (InvalidAlgorithmParameterException |
                 IllegalBlockSizeException | BadPaddingException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
 
     public void test() {
-        try {
-            mStore = KeyStore.getInstance(ANDROIDKEYSTORE);
-        } catch (Exception e) {
-            e.printStackTrace();
-            d(e.getMessage());
-        }
-
-        final KeyGenerator generator;
-        try {
-            generator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
-            mStore.load(null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-
-
-
-
-
 
 
     }
-
 
     public void testKeyStore() {
 

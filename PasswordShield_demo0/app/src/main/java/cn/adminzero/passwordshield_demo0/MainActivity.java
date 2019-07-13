@@ -15,6 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import static cn.adminzero.passwordshield_demo0.test.Test.testAES;
+import static cn.adminzero.passwordshield_demo0.test.Test.testPre;
+import static cn.adminzero.passwordshield_demo0.test.Test.testRSA;
+import static cn.adminzero.passwordshield_demo0.util.LogUtils.d;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -45,8 +50,10 @@ public class MainActivity extends AppCompatActivity
          * *****************************************************************/
         Button remove_database = (Button) findViewById(R.id.next_activity);
         remove_database.setOnClickListener(this);
-//        testAES();
-
+//        d("zjc_com_Main");
+        testAES();
+//        testRSA();
+//        testPre();
 
     }
 

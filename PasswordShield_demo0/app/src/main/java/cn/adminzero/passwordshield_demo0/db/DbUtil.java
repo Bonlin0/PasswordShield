@@ -1,10 +1,15 @@
 package cn.adminzero.passwordshield_demo0.db;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.adminzero.passwordshield_demo0.Encryption;
 import cn.adminzero.passwordshield_demo0.MyApplication;
+import cn.adminzero.passwordshield_demo0.entity.PasswordItem;
 
 import static cn.adminzero.passwordshield_demo0.util.LogUtils.d;
 import static cn.adminzero.passwordshield_demo0.util.LogUtils.t;
@@ -13,6 +18,9 @@ import static cn.adminzero.passwordshield_demo0.util.LogUtils.t;
  * 经过测试通过
  */
 public class DbUtil {
+    //cursor getInt()  当为null 返回0
+    public static int TYTE_APP = 1;
+    public static int TYPE_WEB = 2;
 
 
     /**
@@ -87,5 +95,70 @@ public class DbUtil {
 
     }
 
+    /**
+     * 读取所有的数据进入ListView
+     * 初始化 passwordItem数据
+     */
+
+    public static List<PasswordItem> initPassword() {
+        List<PasswordItem> passwordItemList = new ArrayList<PasswordItem>();
+        SQLiteDatabase db = getDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM PasswordItem ORDER BY type;", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                PasswordItem passwordItem = new PasswordItem();
+                passwordItem.setId(cursor.getInt(0));
+                passwordItem.setAccount(cursor.getString(1));
+                passwordItem.setPassword(cursor.getString(2));
+                passwordItem.setType(cursor.getInt(3));
+                passwordItem.setUri(cursor.getString(4));
+                passwordItem.setNote(cursor.getString(5));
+                passwordItemList.add(passwordItem);
+            } while (cursor.moveToNext());
+        }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        return passwordItemList;
+
+    }
+
+    /**
+     * 根据uri筛选数据
+     */
+    public static List<PasswordItem> getPasswordItemByUri(String uri) {
+        List<PasswordItem> passwordItemList = new ArrayList<PasswordItem>();
+        SQLiteDatabase db = getDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM PasswordItem WHERE uri = ? ;", new String[]{uri});
+
+        if (cursor.moveToFirst()) {
+            do {
+                PasswordItem passwordItem = new PasswordItem();
+                passwordItem.setId(cursor.getInt(0));
+                passwordItem.setAccount(cursor.getString(1));
+                passwordItem.setPassword(cursor.getString(2));
+                passwordItem.setType(cursor.getInt(3));
+                passwordItem.setUri(cursor.getString(4));
+                passwordItem.setNote(cursor.getString(5));
+                passwordItemList.add(passwordItem);
+            } while (cursor.moveToNext());
+        }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        return passwordItemList;
+    }
+
+    /**
+     * 删除函数
+     * */
+
 
 }
+

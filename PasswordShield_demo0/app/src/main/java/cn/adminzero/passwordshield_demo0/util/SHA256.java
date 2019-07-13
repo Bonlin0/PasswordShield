@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Sha256 {
+public class SHA256 {
     /***
      * 利用Apache的工具类实现SHA-256加密
      * @param str 加密后的报文
@@ -15,7 +15,7 @@ public class Sha256 {
 
      */
 
-    public static String SHA256(String str) {
+    public static String Sha256(String str) {
 
         MessageDigest messageDigest;
 
