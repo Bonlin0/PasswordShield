@@ -27,4 +27,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     testImplementation 'junit:junit:4.12'
 
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    debugImplementation 'com.amitshekhar.android:debug-db-encrypt:1.0.6'
+    implementation 'org.apache.commons:com.springsource.org.apache.commons.codec:1.6.0'
+    implementation 'org.bouncycastle:com.springsource.org.bouncycastle.jce:1.46.0'
+
 }

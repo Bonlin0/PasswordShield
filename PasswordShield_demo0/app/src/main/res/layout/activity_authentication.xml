@@ -82,6 +82,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:onClick="onClickUnlockWithFingerPrint"
             android:text="@string/unlock_with_fingerprint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

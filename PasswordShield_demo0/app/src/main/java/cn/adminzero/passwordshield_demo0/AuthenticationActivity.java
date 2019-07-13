@@ -35,4 +35,10 @@ public class AuthenticationActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    //TODO 将使用人脸解锁的按钮方法改为正确的方法
+    public void onClickUnlockWithFingerPrint(View view){
+        Intent intent = new Intent(this, fingerActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

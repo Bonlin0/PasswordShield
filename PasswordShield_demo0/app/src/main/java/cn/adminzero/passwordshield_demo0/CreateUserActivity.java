@@ -9,6 +9,7 @@ import android.view.View;
 
 public class CreateUserActivity extends AppCompatActivity {
 
+    //TODO 确认主密码Edit Text
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
