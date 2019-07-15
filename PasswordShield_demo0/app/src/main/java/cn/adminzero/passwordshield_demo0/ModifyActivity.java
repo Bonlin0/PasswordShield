@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-public class ModifyActivity extends AppCompatActivity {
+public class ModifyActivity extends AppCompatActivity implements View.OnClickListener {
     private String username;
     private String password;
     private String website;
@@ -32,6 +32,9 @@ public class ModifyActivity extends AppCompatActivity {
         final Button username_button =(Button)findViewById(R.id.username);
         Button website_button= (Button) findViewById(R.id.websit_display);
         Button note_button=(Button) findViewById(R.id.note_display);
+        Button edit_button=(Button) findViewById(R.id.edit_account);
+        Button back_button=(Button) findViewById(R.id.back_account);
+
 
         note_button.setText(note);
         website_button.setText(website);
@@ -57,6 +60,7 @@ public class ModifyActivity extends AppCompatActivity {
                                 passwod_button.setText("123456789");
                                 //passwod_button.setText(password);
 
+
                         }
                         //Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_LONG).show();
                         return false;
@@ -72,31 +76,32 @@ public class ModifyActivity extends AppCompatActivity {
                 popupMenu.show();
             }
         });
-    }
+        edit_button.setOnClickListener(this);
+        back_button.setOnClickListener(this);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.modify, menu);
-        return true;
     }
-    public  boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case R.id.modify_icon:
+    @Override
+    public  void  onClick (View v){
+        switch (v.getId()) {
+            case R.id.edit_account:
                 Intent intent_ToEditActivity=new Intent(ModifyActivity.this,EditActivity.class);
                 String debugdata="debug_data_1111";
                 //   intent_ToEditActivity.putExtra("username","111111111111111111111");
                 intent_ToEditActivity.putExtra("username",debugdata);
-                intent_ToEditActivity.putExtra("password",password);
+                // intent_ToEditActivity.putExtra("username",username);
+                intent_ToEditActivity.putExtra("password",debugdata);
                 intent_ToEditActivity.putExtra("website",website);
                 intent_ToEditActivity.putExtra("note",note);
                 Toast.makeText(ModifyActivity.this, "修改", Toast.LENGTH_SHORT).show();
                 startActivity(intent_ToEditActivity);
                 break;
+            case R.id.back_account:
+                finish();
+                break;
             default:
                 break;
+
         }
-        return true;
     }
 
 }

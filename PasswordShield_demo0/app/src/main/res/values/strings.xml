@@ -20,7 +20,7 @@
     <string name="drawer_username">Username</string>
     <string name="place_holder">A place holder.</string>
     <string name="refresh">Refresh</string>
-    <string name="copy">Copy</string>
+    <string name="copy_password_shield">Copy</string>
     <string name="password_length">Length</string>
     <string name="password_AZ">A-Z</string>
     <string name="password_az">a-z</string>
@@ -106,7 +106,8 @@
     <string name="biometric_dialog_state_succeeded">Verification successful</string>
     <string name="biometric_dialog_use_password">Use Password</string>
 
-
+    <string name="display_password">Display</string>
+    <string name="enlarge_display">Enlarge Display</string>
 
 
 

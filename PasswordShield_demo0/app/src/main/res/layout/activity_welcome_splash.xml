@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <ImageView
+        android:id="@+id/splash_launcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="fitXY"
         android:src="@drawable/splash2" />
 
+    <Button
+        android:id="@+id/next_gif"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:shadowColor="#00FDFDFE"
+        android:layout_width="100dp"
+        android:background="@drawable/touming"
+        android:layout_height="100dp" />
 
-</LinearLayout>
+
+</RelativeLayout >

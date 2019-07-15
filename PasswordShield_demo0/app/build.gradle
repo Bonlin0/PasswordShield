@@ -26,6 +26,9 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.0-alpha02'
     implementation 'androidx.appcompat:appcompat:1.0.2'
     testImplementation 'junit:junit:4.12'
+    //加载GIF的Glide框架
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     implementation 'com.facebook.stetho:stetho:1.5.1'
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
