@@ -43,5 +43,34 @@ public class SHA256 {
 
     }
 
+    public static String Sha512(String str) {
+
+        MessageDigest messageDigest;
+
+        String encdeStr = "";
+
+        try {
+
+            messageDigest = MessageDigest.getInstance("SHA-256");
+
+            byte[] hash = messageDigest.digest(str.getBytes("UTF-8"));
+
+            encdeStr = Hex.encodeHexString(hash);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+
+        } catch (UnsupportedEncodingException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return encdeStr.substring(3,59);
+
+    }
+
+
 
 }

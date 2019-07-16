@@ -124,10 +124,10 @@ public class Face {
         try {
             Map<String, Object> map = new HashMap<>();
             map.put("image", image_base);
-            map.put("liveness_control", "NORMAL");
+            map.put("liveness_control", "HIGH");
             map.put("group_id_list", group_id);
             map.put("image_type", "BASE64");
-            map.put("quality_control", "NORMAL");
+            map.put("quality_control", "HIGH");
             map.put("user_id", user_id);
 
             String param = GsonUtils.toJson(map);

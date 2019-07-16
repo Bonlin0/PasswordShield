@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import cn.adminzero.passwordshield_demo0.util.MyKeyStore;
 import cn.adminzero.passwordshield_demo0.util.MyStorage;
@@ -16,7 +17,7 @@ import cn.adminzero.passwordshield_demo0.util.SHA256;
 
 public class CreateUserActivity extends AppCompatActivity {
 
-    EditText masterPasswordEdit = findViewById(R.id.master_password_create_edit);
+    EditText masterPasswordEdit;
 
     //TODO 确认主密码Edit Text
     @Override
@@ -30,8 +31,8 @@ public class CreateUserActivity extends AppCompatActivity {
     }
 
     public void onClickConfirm(View view){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        masterPasswordEdit = findViewById(R.id.master_password_create_edit);
+
 //        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 //        SharedPreferences.Editor sharedPreferenceEditor;
 //        sharedPreferenceEditor = sharedPreferences.edit();
@@ -40,7 +41,14 @@ public class CreateUserActivity extends AppCompatActivity {
 
         String pKey  = masterPasswordEdit.getText().toString();
         //TODO  检测合法性
+        if(pKey.length()==0) {
+            Toast.makeText(CreateUserActivity.this, R.string.password_is_not_valid ,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
         initKey(pKey);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
         finish();
     }
     private void initKey(String pKey) {
@@ -54,11 +62,11 @@ public class CreateUserActivity extends AppCompatActivity {
     }
 
     public void onClickExit(View view){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor sharedPreferenceEditor;
-        sharedPreferenceEditor = sharedPreferences.edit();
-        sharedPreferenceEditor.putBoolean("isUserCreated",false);
-        sharedPreferenceEditor.apply();
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        SharedPreferences.Editor sharedPreferenceEditor;
+//        sharedPreferenceEditor = sharedPreferences.edit();
+//        sharedPreferenceEditor.putBoolean("isUserCreated",false);
+//        sharedPreferenceEditor.apply();
         finish();
     }
 }

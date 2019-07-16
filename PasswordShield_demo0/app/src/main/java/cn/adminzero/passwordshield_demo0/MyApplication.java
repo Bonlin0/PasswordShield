@@ -10,6 +10,7 @@ import cn.adminzero.passwordshield_demo0.util.SHA256;
 
 import static cn.adminzero.passwordshield_demo0.test.Test.testPre;
 import static cn.adminzero.passwordshield_demo0.util.LogUtils.d;
+import static cn.adminzero.passwordshield_demo0.util.LogUtils.t;
 
 public class MyApplication extends Application {
 
@@ -20,6 +21,8 @@ public class MyApplication extends Application {
     public static String FUCK_DB = "FUCK_DB";
     public static String KEY = "KEY";          //存储秘钥信息(经加密)
     public static String ALIAS = "PasswordSheild";
+    public static String isMaster = "isMaster";
+
     public static Boolean isFirstLogin=true;
 
 
@@ -56,14 +59,17 @@ public class MyApplication extends Application {
             //进入初始化函数
 //            initApp();
             isFirstLogin=true;
+            t(String.valueOf(isFirstLogin));
+            d(String.valueOf(isFirstLogin));
         }
-        else if("NOT_FIRST".equals(initial)){
-            isFirstLogin=false;
+        else{
+            isFirstLogin = false;
+            d(String.valueOf(isFirstLogin));
         }
 
         if ("".equals(DB_FIRST)) {
             DbUtil.deleteDatabase();
-            DbUtil.fuck_database();
+//            DbUtil.fuck_database();
         }
         //恢复初始化状态
         //myStorage.storeData(isFirst, "");

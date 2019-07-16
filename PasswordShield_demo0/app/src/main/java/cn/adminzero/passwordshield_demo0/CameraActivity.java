@@ -7,7 +7,10 @@ import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -52,11 +55,61 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private FrameLayout mAspectLayout;
     private boolean mCameraRequested;
     private boolean faceIsRegistered;
+    private AlertDialog.Builder dialog;
+    private AlertDialog.Builder dialog1;
+    private boolean face_check_valid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences.Editor sharedPreferenceEditor;
+        sharedPreferenceEditor = sharedPreferences.edit();
+        //检查配置中是否存在该键 如果不存在
+        if(!sharedPreferences.contains("face_is_registered")){
+            sharedPreferenceEditor.putBoolean("face_is_registered",false);
+        }
+        //检查是否注册人脸，默认false
+        faceIsRegistered = sharedPreferences.getBoolean("face_is_registered",false);
+
+        face_check_valid = false;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog = new AlertDialog.Builder(CameraActivity.this);
+        dialog1 = new AlertDialog.Builder(CameraActivity.this);
+        dialog.setTitle("欢迎使用");
+        dialog1.setCancelable(false);
+        dialog.setCancelable(false);
+        dialog1.setTitle("成功");
+        dialog.setMessage("点击确认开始注册");
+        dialog1.setMessage("注册成功!");
+        dialog1.setPositiveButton("完成", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //修改sharedPreferences
+                sharedPreferenceEditor.putBoolean("face_is_registered",true);
+                sharedPreferenceEditor.commit();
+
+                Intent mainIntent = new Intent(CameraActivity.this, MainActivity.class);
+                startActivity(mainIntent);
+                finish();
+            }
+        });
+        dialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intentAuthentication = new Intent(CameraActivity.this, AuthenticationActivity.class);
+                startActivity(intentAuthentication);
+                finish();
+            }
+        });
+
         progressDialog = new ProgressDialog(CameraActivity.this);
         progressDialog.setTitle("请耐心等待");
         progressDialog.setMessage("正在核实您的身份...");
@@ -76,23 +129,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                             Manifest.permission.WRITE_EXTERNAL_STORAGE
                     }, REQUEST_CAMERA);
         }
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor sharedPreferenceEditor;
-        sharedPreferenceEditor = sharedPreferences.edit();
-        //检查配置中是否存在该键 如果不存在
-        if(!sharedPreferences.contains("face_is_registered")){
-            sharedPreferenceEditor.putBoolean("face_is_registered",false);
-        }
-        //检查是否注册人脸，默认false
-        faceIsRegistered = sharedPreferences.getBoolean("face_is_registered",false);
-        if(faceIsRegistered){
-            //验证人脸
-        }
-        else{
-            //注册人脸
-        }
-
+        if(!faceIsRegistered)
+            dialog.show();
     }
 
     /**
@@ -124,10 +162,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     protected void onResume() {
-
         super.onResume();
         if (mCameraRequested) {
             CameraUtils.startPreview();
+
         }
     }
 
@@ -148,8 +186,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         if(!faceIsRegistered) {
                             //   progressDialog.show();
                             new Thread(new Runnable() {
-                                private addFaceResult addfaceresult;
-
                                 @Override
                                 public void run() {
                                     //处理耗时逻辑
@@ -168,8 +204,18 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                                     Looper.prepare();
                                     switch (addfaceresult.getError_code()) {
                                         case 0: {
-                                            t("@string/face_register_success");
+                                            //   t("人脸添加成功");
+                                            progressDialog.dismiss();
+                                            face_check_valid = true;
+                                            dialog1.setMessage("注册成功!");
+                                            dialog1.show();
                                             break;
+                                        }
+                                        case 222210:
+                                        {
+                                            progressDialog.dismiss();
+                                            dialog1.setMessage("检测到您在人脸库已有资料，可直接使用人脸识别功能!");
+                                            dialog1.show();
                                         }
                                         case 222202: {
                                             t("没有在您的照片中检测到人脸，请重试!");
@@ -208,11 +254,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                                     Looper.loop();
                                 }
                             }).start();
+                            progressDialog.setTitle("正在检查照片质量");
+                            progressDialog.setMessage("请耐心等待...");
+                            progressDialog.show();
                         }
                         else{
                             new Thread(new Runnable() {
-                                private addFaceResult addfaceresult;
-
                                 @Override
                                 public void run() {
                                     //处理耗时逻辑
@@ -231,11 +278,21 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                                     Looper.prepare();
                                     switch (addfaceresult.getError_code()) {
                                         case 0: {
-                                            t("@string/face_register_success");
+                                            t("核查通过!");
+                                            d(Result);
+                                            progressDialog.dismiss();
+                                            Intent mainIntent = new Intent(CameraActivity.this, MainActivity.class);
+                                            startActivity(mainIntent);
+                                            finish();
                                             break;
                                         }
                                         case 222202: {
                                             t("没有在您的照片中检测到人脸，请重试!");
+                                            break;
+                                        }
+                                        case 222207:
+                                        {
+                                            t("身份验证失败，请重试!");
                                             break;
                                         }
                                         case 222205:
@@ -271,9 +328,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                                     Looper.loop();
                                 }
                             }).start();
+                            progressDialog.setTitle("请耐心等待");
+                            progressDialog.setMessage("正在核实您的身份...");
+                            progressDialog.show();
                         }
-                        progressDialog.show();
-
                     }
                     catch (RuntimeException e)
                     {

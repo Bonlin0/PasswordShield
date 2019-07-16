@@ -42,12 +42,12 @@ public class SettingsActivity extends AppCompatActivity {
         //使用指纹识别管理器
         fingerprintManager = BiometricPromptManager.from(this);
         //查找switch控件
-        unlock_with_fingerprint_switch_preference = findViewById
-                (R.id.unlock_with_fingerprint_switch_preference);
-        if (unlock_with_fingerprint_switch_preference == null) {
-            Toast.makeText(SettingsActivity.this, "onFailed", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        unlock_with_fingerprint_switch_preference = findViewById
+//                (R.id.unlock_with_fingerprint_switch_preference);
+//        if (unlock_with_fingerprint_switch_preference == null) {
+//            Toast.makeText(SettingsActivity.this, "onFailed", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
     }
 

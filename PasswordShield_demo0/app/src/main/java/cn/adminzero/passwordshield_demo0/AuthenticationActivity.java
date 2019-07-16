@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import cn.adminzero.passwordshield_demo0.biometriclib.BiometricPromptManager;
+import cn.adminzero.passwordshield_demo0.util.MyStorage;
+import cn.adminzero.passwordshield_demo0.util.SHA256;
 
 //TODO Font color of Tool bar is black
 
@@ -57,9 +59,30 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     }
 
+    public static boolean isMasterKey(String keyInput) {
+        keyInput = SHA256.Sha512(keyInput);
+        MyStorage myStorage = new MyStorage();
+        if (myStorage.getData(MyApplication.isMaster).equals(keyInput)) {
+            return true;
+        }
+        return false;
+    }
+
+
+
     public void onClickConfirm(View view){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+
+
+        EditText master_password_edit = findViewById(R.id.master_password_edit);
+        String masterPasswordInput = master_password_edit.getText().toString();
+        if(isMasterKey(masterPasswordInput)){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        else{
+            Toast.makeText(this, "@string/wrong_master_passsword",Toast.LENGTH_SHORT);
+            master_password_edit.setText("");
+        }
         finish();
     }
 
