@@ -54,7 +54,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         if(!switch_unlock_with_face_is_checked){
             unlockWithFaceButton.setVisibility(View.INVISIBLE);
         }
-        int time = sharedPreferences.getInt("time_to_lock",15);
+
     }
 
     public void onClickConfirm(View view){
@@ -67,9 +67,8 @@ public class AuthenticationActivity extends AppCompatActivity {
         finish();
     }
 
-    //TODO 将使用人脸解锁的按钮方法改为正确的方法
     public void onClickUnlockWithFace(View view){
-        Intent intent = new Intent(this, CreateUserActivity.class);
+        Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
         finish();
     }

@@ -51,20 +51,20 @@ public class MyApplication extends Application {
             // isFirstLogin=true;
         }
         //恢复初始化状态 status
-        myStorage.storeData(isFirst, "");
-//        myStorage.storeData(isFirst, "no");
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor sharedPreferenceEditor;
-        sharedPreferenceEditor = sharedPreferences.edit();
-        if(!sharedPreferences.contains("isUserCreated")){
-            //如果没有找到该preference ， 先预设为false
-            sharedPreferenceEditor.putBoolean("isUserCreated",true);
-            sharedPreferenceEditor.apply();
-        }
-        else{
-            isFirstLogin = sharedPreferences.getBoolean("switch_unlock_with_fingerprint"
-                    , false);
-        }
+//        myStorage.storeData(isFirst, "");
+          myStorage.storeData(isFirst, "no");
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        SharedPreferences.Editor sharedPreferenceEditor;
+//        sharedPreferenceEditor = sharedPreferences.edit();
+//        if(!sharedPreferences.contains("isUserCreated")){
+//            //如果没有找到该preference ， 先预设为false
+//            sharedPreferenceEditor.putBoolean("isUserCreated",true);
+//            sharedPreferenceEditor.apply();
+//        }
+//        else{
+//            isFirstLogin = sharedPreferences.getBoolean("switch_unlock_with_fingerprint"
+//                    , false);
+//        }
 
     }
 
