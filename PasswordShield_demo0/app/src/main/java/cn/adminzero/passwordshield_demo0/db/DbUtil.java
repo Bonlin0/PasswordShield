@@ -7,12 +7,26 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.adminzero.passwordshield_demo0.Encryption;
 import cn.adminzero.passwordshield_demo0.MyApplication;
 import cn.adminzero.passwordshield_demo0.entity.PasswordItem;
+import cn.adminzero.passwordshield_demo0.util.Encryption;
 
 import static cn.adminzero.passwordshield_demo0.util.LogUtils.d;
 import static cn.adminzero.passwordshield_demo0.util.LogUtils.t;
+
+
+/**
+ * 开发者调用API接口
+ * 1.SQLiteDatabase getDatabase();
+ * 打开默认的数据库,返回SQLiteDatabase句柄
+ * 2.public static boolean AddAccount(String account, String password, int type, String uri, String note);
+ * 添加信息到数据库
+ * 3.public static List<PasswordItem> initPasswordListView();
+ * 查询数据库所有数据 返回数据集合List给适配器
+ * 4.public static List<PasswordItem> getPasswordItemByUri(String uri);
+ * 填充查询根据程序的包名或者域名返回秘码列表
+ */
+
 
 /**
  * 经过测试通过
@@ -76,7 +90,7 @@ public class DbUtil {
     public static boolean AddAccount(String account, String password, int type, String uri, String note) {
 
         SQLiteDatabase db = getDatabase();
-        password = Encryption.encode(password);
+        password = new Encryption().encode(password);
 
         if (TextUtils.isEmpty(note)) {
             note = "none";
@@ -100,27 +114,38 @@ public class DbUtil {
      * 初始化 passwordItem数据
      */
 
-    public static List<PasswordItem> initPassword() {
+    public static List<PasswordItem> initPasswordListView() {
         List<PasswordItem> passwordItemList = new ArrayList<PasswordItem>();
         SQLiteDatabase db = getDatabase();
 
         Cursor cursor = db.rawQuery("SELECT * FROM PasswordItem ORDER BY type;", null);
-
+        Encryption encryption = new Encryption();
+        String ciperText;
+        int id = 1;
         if (cursor.moveToFirst()) {
             do {
                 PasswordItem passwordItem = new PasswordItem();
-                passwordItem.setId(cursor.getInt(0));
-                passwordItem.setAccount(cursor.getString(1));
-                passwordItem.setPassword(cursor.getString(2));
-                passwordItem.setType(cursor.getInt(3));
-                passwordItem.setUri(cursor.getString(4));
-                passwordItem.setNote(cursor.getString(5));
+                passwordItem.setId(id);
+                passwordItem.setAccount(cursor.getString(cursor.getColumnIndex("account")));
+                /*-------------------------------------------*/
+                //解密password
+                /*-------------------------------------------*/
+                ciperText = cursor.getString(cursor.getColumnIndex("password"));
+                passwordItem.setPassword(encryption.decode(ciperText));
+                passwordItem.setType(cursor.getInt(cursor.getColumnIndex("type")));
+                passwordItem.setUri(cursor.getString(cursor.getColumnIndex("uri")));
+                passwordItem.setNote(cursor.getString(cursor.getColumnIndex("note")));
                 passwordItemList.add(passwordItem);
+                id++;
             } while (cursor.moveToNext());
         }
 
         if (cursor != null) {
             cursor.close();
+        }
+
+        if (db != null) {
+            db.close();
         }
 
         return passwordItemList;
@@ -134,30 +159,80 @@ public class DbUtil {
         List<PasswordItem> passwordItemList = new ArrayList<PasswordItem>();
         SQLiteDatabase db = getDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM PasswordItem WHERE uri = ? ;", new String[]{uri});
-
+        Encryption encryption = new Encryption();
+        String ciperText;
+        int id = 1;
         if (cursor.moveToFirst()) {
             do {
                 PasswordItem passwordItem = new PasswordItem();
-                passwordItem.setId(cursor.getInt(0));
-                passwordItem.setAccount(cursor.getString(1));
-                passwordItem.setPassword(cursor.getString(2));
-                passwordItem.setType(cursor.getInt(3));
-                passwordItem.setUri(cursor.getString(4));
-                passwordItem.setNote(cursor.getString(5));
+                passwordItem.setId(id);
+                passwordItem.setAccount(cursor.getString(cursor.getColumnIndex("account")));
+                /*-------------------------------------------*/
+                //解密password
+                /*-------------------------------------------*/
+                ciperText = cursor.getString(cursor.getColumnIndex("password"));
+                passwordItem.setPassword(encryption.decode(ciperText));
+                passwordItem.setType(cursor.getInt(cursor.getColumnIndex("type")));
+                passwordItem.setUri(cursor.getString(cursor.getColumnIndex("uri")));
+                passwordItem.setNote(cursor.getString(cursor.getColumnIndex("note")));
                 passwordItemList.add(passwordItem);
+                id++;
             } while (cursor.moveToNext());
         }
 
         if (cursor != null) {
             cursor.close();
         }
+        if (db != null) {
+            db.close();
+        }
 
         return passwordItemList;
     }
 
     /**
-     * 删除函数
-     * */
+     * 从数据库删除条目
+     * 输入:账户名 account
+     * 输入:路径名 uri
+     * 输出 : 成功与否
+     */
+    public static boolean deletePasswordItem(String account, String uri) {
+        SQLiteDatabase db = getDatabase();
+        try {
+            db.execSQL("DELETE FROM PasswordItem WHERE account = ? AND uri = ?;", new String[]{account, uri});
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            d(e.getMessage());
+        }
+        return false;
+    }
+
+    /**
+     * 插入数据库
+     */
+
+    //伪造数据库
+    public static void fuck_database() {
+        Encryption encryption = new Encryption();
+
+        SQLiteDatabase db = getDatabase();
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"123456", encryption.encode("zjc"), String.valueOf(1), "www.baizjc.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"245erwrywry", encryption.encode("zjc"), String.valueOf(1), "www.baizjcas.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"122453253456", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.baizasdjc.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"1235twet34456", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.baidaszjc.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"123rtwtwtw456", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.basdaizjc.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"fgjghjgfjfdgser", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.asdsabaizjc.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"hgfgjgjjfj", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.bdsddaizjc.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"hjhgj", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.dfgbaizjc.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"12dghf3456", encryption.encode("zjcadasdasdasd"), String.valueOf(2), "www.gfbaizjc.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"fasd", encryption.encode("zjcadasdasdasd"), String.valueOf(2), "www.baizjc.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"fadfads", encryption.encode("zjcadasdasdasd"), String.valueOf(2), "www.gdfbaizjc.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"asdfd", encryption.encode("zjcadasdasdasd"), String.valueOf(2), "www.gdfbgdaizjc.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"asdsadasfd6", encryption.encode("zjcadasdasdasd"), String.valueOf(2), "www.mnbmgaizjc.com", "1号备注"});
+
+
+    }
 
 
 }

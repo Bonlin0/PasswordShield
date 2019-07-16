@@ -3,7 +3,6 @@ package cn.adminzero.passwordshield_demo0;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -26,7 +24,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static cn.adminzero.passwordshield_demo0.MyApplication.isFirstLogin;
 import static java.lang.Thread.sleep;
 
 public class WelcomeSplashActivity extends AppCompatActivity {
@@ -36,19 +33,7 @@ public class WelcomeSplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //获取是否第一次运行的配置
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(WelcomeSplashActivity.this);
-        final SharedPreferences.Editor sharedPreferenceEditor = sharedPreferences.edit();
-        if(!sharedPreferences.contains("isUserCreated")) {
-            //如果没有找到该preference ， 先预设为false
-            sharedPreferenceEditor.putBoolean("isUserCreated", false);
-            sharedPreferenceEditor.apply();
-        }
-        boolean isUserCreated = sharedPreferences.getBoolean("isUserCreated",false);
-        isFirstLogin = !isUserCreated;
-
-
+       // Boolean isFirstLogin = true;
         Log.d(TAG, "onCreate: 进入了onCreate");
         setContentView(R.layout.activity_welcome_splash);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//全屏显示
@@ -73,7 +58,7 @@ public class WelcomeSplashActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: 设置了view");
         //这里用了三层结构，来展示三个gif  每个gif右上角有个透明的按钮 onClick后进入下一层
-        if (isFirstLogin) {
+        if (MyApplication.isFirstLogin) {
             ImageView imageView = (ImageView) findViewById(R.id.splash_launcher);
             // Glide.with(this).load(R.drawable.launcher1).into(imageView);
 
@@ -109,9 +94,6 @@ public class WelcomeSplashActivity extends AppCompatActivity {
                                                         public void onClick(View view) {
                                                             Intent intent=new Intent(WelcomeSplashActivity.this,CreateUserActivity.class);
                                                             startActivity(intent);
-                                                            isFirstLogin = false;
-                                                            sharedPreferenceEditor.putBoolean("isUserCreated", false);
-                                                            sharedPreferenceEditor.apply();
                                                             finish();
 
                                                         }

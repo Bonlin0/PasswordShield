@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import static cn.adminzero.passwordshield_demo0.db.DbUtil.AddAccount;
+
 public class AddAccountActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText account_text;
     private EditText password_text;
@@ -42,7 +44,10 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
                 String input_password=password_text.getText().toString();
                 String input_website=website_text.getText().toString();
                 String input_note=note_text.getText().toString();
-                Toast.makeText(this,"账号"+input_account+"密码"+input_password+"网址"+input_website+"备注"+input_note,Toast.LENGTH_LONG).show();
+                int input_type = 1;
+                AddAccount(input_account,input_password,input_type,input_website,input_note);
+                finish();
+                //Toast.makeText(this,"账号"+input_account+"密码"+input_password+"网址"+input_website+"备注"+input_note,Toast.LENGTH_LONG).show();
                 break;
             case R.id.cancel:
                 finish();

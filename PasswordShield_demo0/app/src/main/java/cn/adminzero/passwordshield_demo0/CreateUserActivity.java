@@ -8,10 +8,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+
+import cn.adminzero.passwordshield_demo0.util.MyKeyStore;
+import cn.adminzero.passwordshield_demo0.util.MyStorage;
+import cn.adminzero.passwordshield_demo0.util.SHA256;
 
 public class CreateUserActivity extends AppCompatActivity {
 
-
+    EditText masterPasswordEdit = findViewById(R.id.master_password_create_edit);
 
     //TODO 确认主密码Edit Text
     @Override
@@ -27,12 +32,25 @@ public class CreateUserActivity extends AppCompatActivity {
     public void onClickConfirm(View view){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor sharedPreferenceEditor;
-        sharedPreferenceEditor = sharedPreferences.edit();
-        sharedPreferenceEditor.putBoolean("isUserCreated",true);
-        sharedPreferenceEditor.apply();
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        SharedPreferences.Editor sharedPreferenceEditor;
+//        sharedPreferenceEditor = sharedPreferences.edit();
+//        sharedPreferenceEditor.putBoolean("isUserCreated",true);
+//        sharedPreferenceEditor.apply();
+
+        String pKey  = masterPasswordEdit.getText().toString();
+        //TODO  检测合法性
+        initKey(pKey);
         finish();
+    }
+    private void initKey(String pKey) {
+        //进入初始化界面Intent
+        MyStorage myStorage = new MyStorage();
+        pKey = SHA256.Sha256(pKey);
+        myStorage.storeData(MyApplication.KEY, MyKeyStore.encryptKey(pKey));
+        String cunchuKey = myStorage.getData(MyApplication.KEY);
+        myStorage.storeData(MyApplication.isFirst, "NOT_FIRST");
+
     }
 
     public void onClickExit(View view){

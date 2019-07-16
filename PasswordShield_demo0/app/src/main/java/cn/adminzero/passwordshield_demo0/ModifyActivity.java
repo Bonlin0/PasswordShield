@@ -23,9 +23,9 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent_FromListActivity=getIntent();
-        username=intent_FromListActivity.getStringExtra("username");
+        username=intent_FromListActivity.getStringExtra("account");
         password=intent_FromListActivity.getStringExtra("password");
-        website=intent_FromListActivity.getStringExtra("webstie");
+        website=intent_FromListActivity.getStringExtra("uri");
         note=intent_FromListActivity.getStringExtra("note");
         setContentView(R.layout.activity_modify);
         final Button passwod_button = (Button) findViewById(R.id.password_display);
@@ -57,8 +57,8 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                                 Toast.makeText(ModifyActivity.this,"调用API把密码复制到剪切板",Toast.LENGTH_LONG).show();
                                 break;
                             case R.id.password_display:
-                                passwod_button.setText("123456789");
-                                //passwod_button.setText(password);
+                               // passwod_button.setText("123456789");
+                                passwod_button.setText(password);
 
 
                         }
@@ -85,15 +85,16 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.edit_account:
                 Intent intent_ToEditActivity=new Intent(ModifyActivity.this,EditActivity.class);
-                String debugdata="debug_data_1111";
-                //   intent_ToEditActivity.putExtra("username","111111111111111111111");
-                intent_ToEditActivity.putExtra("username",debugdata);
-                // intent_ToEditActivity.putExtra("username",username);
-                intent_ToEditActivity.putExtra("password",debugdata);
-                intent_ToEditActivity.putExtra("website",website);
+//                String debugdata="debug_data_1111";
+//                intent_ToEditActivity.putExtra("account","111111111111111111111");
+//                intent_ToEditActivity.putExtra("account",debugdata);
+                intent_ToEditActivity.putExtra("account",username);
+                intent_ToEditActivity.putExtra("password",password);
+                intent_ToEditActivity.putExtra("uri",website);
                 intent_ToEditActivity.putExtra("note",note);
                 Toast.makeText(ModifyActivity.this, "修改", Toast.LENGTH_SHORT).show();
                 startActivity(intent_ToEditActivity);
+                finish();
                 break;
             case R.id.back_account:
                 finish();

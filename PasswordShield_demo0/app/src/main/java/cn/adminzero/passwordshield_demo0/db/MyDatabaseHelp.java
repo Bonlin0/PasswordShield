@@ -23,18 +23,18 @@ public class MyDatabaseHelp extends SQLiteOpenHelper {
 
     private static final String PasswordItem =
             "CREATE TABLE PasswordItem(" +
-                    "   id INT PRIMARY KEY     NOT NULL," +
                     "   account           TEXT    NOT NULL," +
                     "   password          TEXT    NOT NULL," +
                     "   uri               TEXT    NOT NULL," +
                     "   type              INT     NOT NULL," +
-                    "   note              TEXT" +
+                    "   note              TEXT            ," +
+                    "constraint pk primary key (account,uri)"+
                     ");";
 
     private static final String ControledApp =
             "CREATE TABLE ControledApp(" +
-                    "   id INT PRIMARY KEY     NOT NULL," +
-                    "   uri            TEXT    NOT NULL" +
+                    "   uri            TEXT      NOT NULL," +
+                    "   constraint pk  primary key(uri)   " +
                     ");";
 
     private Context mcontext;

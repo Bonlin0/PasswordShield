@@ -8,12 +8,13 @@ import cn.adminzero.passwordshield_demo0.MyApplication;
 
 public class MyStorage {
 
+    private static final String TAG = "PasswordSheild";
 
     private SharedPreferences preferences;
 
     //PasswordSheild保存于PasswordSheild
     public MyStorage() {
-        preferences = MyApplication.getContext().getSharedPreferences(MyApplication.getDbName(), Activity.MODE_PRIVATE);
+        preferences = MyApplication.getContext().getSharedPreferences(TAG, Activity.MODE_PRIVATE);
     }
 
     //没有String 默认 ""
