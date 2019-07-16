@@ -2,9 +2,12 @@ package cn.adminzero.passwordshield_demo0;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceManager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,6 +24,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     private BiometricPromptManager fingerprintManager;
     private Button unlockWithFingerprintButton;
+    private Button unlockWithFaceButton;
     private EditText master_password_edit;
 
 
@@ -34,9 +38,23 @@ public class AuthenticationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //设置指纹识别相关
         unlockWithFingerprintButton = findViewById(R.id.unlock_with_fingerprint_button);
+        unlockWithFaceButton = findViewById(R.id.unlock_with_face_button);
         fingerprintManager = BiometricPromptManager.from(this);
         master_password_edit = findViewById(R.id.master_password_edit);
 
+        //检查设置文件
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean switch_unlock_with_fingerprint_is_checked = sharedPreferences.getBoolean("switch_unlock_with_fingerprint"
+                , false);
+        boolean switch_unlock_with_face_is_checked = sharedPreferences.getBoolean("switch_unlock_with_face"
+                , false);
+        if(!switch_unlock_with_fingerprint_is_checked){
+            unlockWithFingerprintButton.setVisibility(View.INVISIBLE);
+        }
+        if(!switch_unlock_with_face_is_checked){
+            unlockWithFaceButton.setVisibility(View.INVISIBLE);
+        }
+        int time = sharedPreferences.getInt("time_to_lock",15);
     }
 
     public void onClickConfirm(View view){

@@ -24,6 +24,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import static cn.adminzero.passwordshield_demo0.MyApplication.isFirstLogin;
 import static java.lang.Thread.sleep;
 
 public class WelcomeSplashActivity extends AppCompatActivity {
@@ -33,7 +34,7 @@ public class WelcomeSplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Boolean isFirstLogin = true;
+
         Log.d(TAG, "onCreate: 进入了onCreate");
         setContentView(R.layout.activity_welcome_splash);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//全屏显示
@@ -94,6 +95,7 @@ public class WelcomeSplashActivity extends AppCompatActivity {
                                                         public void onClick(View view) {
                                                             Intent intent=new Intent(WelcomeSplashActivity.this,CreateUserActivity.class);
                                                             startActivity(intent);
+                                                            isFirstLogin = false;
                                                             finish();
 
                                                         }

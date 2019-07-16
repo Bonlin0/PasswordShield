@@ -109,6 +109,7 @@
     <string name="display_password">Display</string>
     <string name="enlarge_display">Enlarge Display</string>
 
+    <string name="my_autofill_service">MyAutofillService</string>
 
 
 </resources>

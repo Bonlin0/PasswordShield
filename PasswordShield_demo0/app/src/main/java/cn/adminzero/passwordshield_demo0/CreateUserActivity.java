@@ -2,12 +2,16 @@ package cn.adminzero.passwordshield_demo0;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
 public class CreateUserActivity extends AppCompatActivity {
+
+
 
     //TODO 确认主密码Edit Text
     @Override
@@ -16,15 +20,27 @@ public class CreateUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_user);
         Toolbar toolbar = findViewById(R.id.toolbar_create_user);
         setSupportActionBar(toolbar);
+
+
     }
 
     public void onClickConfirm(View view){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor sharedPreferenceEditor;
+        sharedPreferenceEditor = sharedPreferences.edit();
+        sharedPreferenceEditor.putBoolean("isUserCreated",true);
+        sharedPreferenceEditor.apply();
         finish();
     }
 
     public void onClickExit(View view){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor sharedPreferenceEditor;
+        sharedPreferenceEditor = sharedPreferences.edit();
+        sharedPreferenceEditor.putBoolean("isUserCreated",false);
+        sharedPreferenceEditor.apply();
         finish();
     }
 }

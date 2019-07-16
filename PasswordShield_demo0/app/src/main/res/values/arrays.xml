@@ -19,10 +19,10 @@
     </string-array>
 
     <string-array name="time_to_lock_values">
-        <item>@string/one_minute</item>
-        <item>@string/fifteen_minutes</item>
-        <item>@string/one_hour</item>
-        <item>@string/never</item>
+        <item>1</item>
+        <item>15</item>
+        <item>60</item>
+        <item>999</item>
     </string-array>
 
     <!-- Themes Preference -->
