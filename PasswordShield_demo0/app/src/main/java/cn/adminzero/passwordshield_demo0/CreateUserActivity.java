@@ -57,7 +57,7 @@ public class CreateUserActivity extends AppCompatActivity {
         pKey = SHA256.Sha256(pKey);
         myStorage.storeData(MyApplication.KEY, MyKeyStore.encryptKey(pKey));
         String cunchuKey = myStorage.getData(MyApplication.KEY);
-        myStorage.storeData(MyApplication.isFirst, "NOT_FIRST");
+        myStorage.storeData("isFirst", "NOT_FIRST");
 
     }
 

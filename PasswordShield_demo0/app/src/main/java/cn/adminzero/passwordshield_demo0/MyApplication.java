@@ -17,11 +17,11 @@ public class MyApplication extends Application {
     private static Context context;
     private static int dbVersion = 1;
     private static String dbName = "PasswordSheild";
-    public static String isFirst = "isFirst";  //判断是否第一次安装
+    public final static String isFirst = "isFirst";  //判断是否第一次安装
     public static String FUCK_DB = "FUCK_DB";
-    public static String KEY = "KEY";          //存储秘钥信息(经加密)
-    public static String ALIAS = "PasswordSheild";
-    public static String isMaster = "isMaster";
+    public final static String KEY = "KEY";          //存储秘钥信息(经加密)
+    public final static String ALIAS = "PasswordSheild";
+    public final static String isMaster = "isMaster";
 
     public static Boolean isFirstLogin=true;
 
