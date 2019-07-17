@@ -1,21 +1,12 @@
 package cn.adminzero.passwordshield_demo0.FaceManger.ResultClass;
 
-//log_id	是	uint64	请求标识码，随机数，唯一
-//        face_list	是	array	人脸列表
-//        + face_token	是	string	人脸图片的唯一标识
-//        +ctime	是	string	人脸创建时间
-
-import java.lang.reflect.Array;
-import java.util.List;
-
-public class getFaceListResult {
+public class matchResult {
     private int error_code;
     private String error_msg;
     private String log_id;
     private String timestamp;
     private int cached;
-
-    private FaceList result;
+    private matchResult_result result;
 
     public int getError_code() {
         return error_code;
@@ -57,11 +48,11 @@ public class getFaceListResult {
         this.cached = cached;
     }
 
-    public FaceList getResult() {
+    public matchResult_result getResult() {
         return result;
     }
 
-    public void setResult(FaceList result) {
+    public void setResult(matchResult_result result) {
         this.result = result;
     }
 }

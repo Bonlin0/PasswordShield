@@ -54,11 +54,13 @@ public class CreateUserActivity extends AppCompatActivity {
     private void initKey(String pKey) {
         //进入初始化界面Intent
         MyStorage myStorage = new MyStorage();
+        myStorage.storeData(MyApplication.isMaster, SHA256.Sha512(pKey));
         pKey = SHA256.Sha256(pKey);
         myStorage.storeData(MyApplication.KEY, MyKeyStore.encryptKey(pKey));
         String cunchuKey = myStorage.getData(MyApplication.KEY);
-        myStorage.storeData("isFirst", "NOT_FIRST");
+        myStorage.storeData(MyApplication.isFirst, "NOT_FIRST");
         MyApplication.isFirstLogin = false;
+
     }
 
     public void onClickExit(View view){

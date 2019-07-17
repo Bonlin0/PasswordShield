@@ -59,6 +59,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     }
 
+
     public static boolean isMasterKey(String keyInput) {
         keyInput = SHA256.Sha512(keyInput);
         MyStorage myStorage = new MyStorage();

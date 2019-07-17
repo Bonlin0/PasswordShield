@@ -1,6 +1,5 @@
 package cn.adminzero.passwordshield_demo0.FaceManger.ResultClass;
 
-import java.lang.reflect.Array;
 
 //
 //log_id	是	uint64	请求标识码，随机数，唯一
@@ -13,7 +12,7 @@ import java.lang.reflect.Array;
 //        +rotation	是	int64	人脸框相对于竖直方向的顺时针旋转角，[-180,180]
 public class addFaceResult {
     private int error_code;
-    private String error_Message;
+    private String error_msg;
     private String log_id;
     private String timestamp;
     private int cached;
@@ -49,6 +48,10 @@ public class addFaceResult {
             }
         }
 
+        public void setFace_token(String face_token) {
+            this.face_token = face_token;
+        }
+
         public String getFace_token() {
             return face_token;
         }
@@ -59,7 +62,7 @@ public class addFaceResult {
     }
 
     public String getError_Message() {
-        return error_Message;
+        return error_msg;
     }
 
     public String getLog_id() {

@@ -30,6 +30,7 @@ import com.google.gson.Gson;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import cn.adminzero.passwordshield_demo0.FaceManger.ResultClass.*;
 import cn.adminzero.passwordshield_demo0.FaceManger.Face;
@@ -58,20 +59,20 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private AlertDialog.Builder dialog;
     private AlertDialog.Builder dialog1;
     private boolean face_check_valid;
+    private getFaceListResult getfacelistresult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor sharedPreferenceEditor;
         sharedPreferenceEditor = sharedPreferences.edit();
         //检查配置中是否存在该键 如果不存在
-        if(!sharedPreferences.contains("face_is_registered")){
-            sharedPreferenceEditor.putBoolean("face_is_registered",false);
+        if (!sharedPreferences.contains("face_is_registered")) {
+            sharedPreferenceEditor.putBoolean("face_is_registered", false);
         }
         //检查是否注册人脸，默认false
-        faceIsRegistered = sharedPreferences.getBoolean("face_is_registered",false);
+        faceIsRegistered = sharedPreferences.getBoolean("face_is_registered", false);
 
         face_check_valid = false;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -87,7 +88,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //修改sharedPreferences
-                sharedPreferenceEditor.putBoolean("face_is_registered",true);
+                sharedPreferenceEditor.putBoolean("face_is_registered", true);
                 sharedPreferenceEditor.commit();
 
                 Intent mainIntent = new Intent(CameraActivity.this, MainActivity.class);
@@ -129,7 +130,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                             Manifest.permission.WRITE_EXTERNAL_STORAGE
                     }, REQUEST_CAMERA);
         }
-        if(!faceIsRegistered)
+        if (!faceIsRegistered)
             dialog.show();
     }
 
@@ -137,7 +138,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
      * 初始化View
      */
     private void initView() {
-        mAspectLayout = (FrameLayout) findViewById(R.id.layout_aspect);;
+        mAspectLayout = (FrameLayout) findViewById(R.id.layout_aspect);
+        ;
         mCameraSurfaceView = new CameraSurfaceView(this);
         mAspectLayout.addView(mCameraSurfaceView);
         mOrientation = CameraUtils.calculateCameraPreviewOrientation(CameraActivity.this);
@@ -180,10 +182,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.btn_take:
                 d(String.valueOf(safeTakePicture));
-                if(!safeTakePicture) {
+                if (!safeTakePicture) {
                     try {
                         takePicture();
-                        if(!faceIsRegistered) {
+                        if (!faceIsRegistered) {
                             //   progressDialog.show();
                             new Thread(new Runnable() {
                                 @Override
@@ -211,8 +213,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                                             dialog1.show();
                                             break;
                                         }
-                                        case 222210:
-                                        {
+                                        case 222210: {
                                             progressDialog.dismiss();
                                             dialog1.setMessage("检测到您在人脸库已有资料，可直接使用人脸识别功能!");
                                             dialog1.show();
@@ -247,7 +248,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                                             break;
                                         }
                                         default: {
-                                            t("照片异常，请重试！");
+                                            t(addfaceresult.getError_Message());
                                             break;
                                         }
                                     }
@@ -257,41 +258,36 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                             progressDialog.setTitle("正在检查照片质量");
                             progressDialog.setMessage("请耐心等待...");
                             progressDialog.show();
-                        }
-                        else{
+                        } else {
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    //处理耗时逻辑
-                                    String path = Environment.getExternalStorageDirectory() + "/DCIM/Camera/"
-                                            + "temp" + ".jpg";
-                                    String encode = null;
-                                    try {
-                                        encode = Base64Util.encode(FileUtil.readFileByBytes(path));
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    String Result = Face.search(encode,"groupTest","965954485");
+                                    String result = Face.getFaceList("abcd", "groupTest");
                                     Gson gson = new Gson();
-                                    addfaceresult = gson.fromJson(Result, addFaceResult.class);
+                                    getfacelistresult = gson.fromJson(result, getFaceListResult.class);
+                                    matchResult matchresult = gson.fromJson(Face.match(getfacelistresult.getResult().getFace_list().get(0).getFace_token()), matchResult.class);
+
                                     progressDialog.dismiss();
                                     Looper.prepare();
-                                    switch (addfaceresult.getError_code()) {
+                                    switch (matchresult.getError_code()) {
                                         case 0: {
-                                            t("核查通过!");
-                                            d(Result);
-                                            progressDialog.dismiss();
-                                            Intent mainIntent = new Intent(CameraActivity.this, MainActivity.class);
-                                            startActivity(mainIntent);
-                                            finish();
+                                            if (matchresult.getResult().getScore() >= 90) {
+                                                t("核查通过!");
+                                                progressDialog.dismiss();
+                                                Intent mainIntent = new Intent(CameraActivity.this, MainActivity.class);
+                                                startActivity(mainIntent);
+                                                finish();
+                                            }
+                                            else {
+                                                t("身份校验失败，请重试!");
+                                            }
                                             break;
                                         }
                                         case 222202: {
                                             t("没有在您的照片中检测到人脸，请重试!");
                                             break;
                                         }
-                                        case 222207:
-                                        {
+                                        case 222207: {
                                             t("身份验证失败，请重试!");
                                             break;
                                         }
@@ -321,7 +317,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                                             break;
                                         }
                                         default: {
-                                            t("照片异常，请重试！");
+                                            t(matchresult.getError_msg());
                                             break;
                                         }
                                     }
@@ -332,9 +328,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                             progressDialog.setMessage("正在核实您的身份...");
                             progressDialog.show();
                         }
-                    }
-                    catch (RuntimeException e)
-                    {
+                    } catch (RuntimeException e) {
                     }
                 }
                 break;
