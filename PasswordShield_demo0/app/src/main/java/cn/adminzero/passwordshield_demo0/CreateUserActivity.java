@@ -58,7 +58,7 @@ public class CreateUserActivity extends AppCompatActivity {
         myStorage.storeData(MyApplication.KEY, MyKeyStore.encryptKey(pKey));
         String cunchuKey = myStorage.getData(MyApplication.KEY);
         myStorage.storeData("isFirst", "NOT_FIRST");
-
+        MyApplication.isFirstLogin = false;
     }
 
     public void onClickExit(View view){
