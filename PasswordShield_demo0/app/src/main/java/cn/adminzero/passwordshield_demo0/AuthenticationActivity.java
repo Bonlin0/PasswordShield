@@ -79,12 +79,13 @@ public class AuthenticationActivity extends AppCompatActivity {
         if(isMasterKey(masterPasswordInput)){
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
         else{
             Toast.makeText(this, "@string/wrong_master_passsword",Toast.LENGTH_SHORT);
             master_password_edit.setText("");
         }
-        finish();
+
     }
 
     public void onClickExit(View view){
