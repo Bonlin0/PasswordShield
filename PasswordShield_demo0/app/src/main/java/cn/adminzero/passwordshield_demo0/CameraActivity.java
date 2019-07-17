@@ -60,6 +60,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private AlertDialog.Builder dialog1;
     private boolean face_check_valid;
     private getFaceListResult getfacelistresult;
+    private AlertDialog.Builder dialog3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,16 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         faceIsRegistered = sharedPreferences.getBoolean("face_is_registered", false);
 
         face_check_valid = false;
+        dialog3 = new AlertDialog.Builder(CameraActivity.this);
+        dialog3.setTitle("错误");
+
+        dialog3.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                finish();
+            }
+        });
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog = new AlertDialog.Builder(CameraActivity.this);
         dialog1 = new AlertDialog.Builder(CameraActivity.this);
@@ -199,7 +210,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-                                    String Result = Face.addFace(encode, "965954485", "groupTest");
+                                    String Result = Face.addFace(encode, "abcd", "groupTest");
                                     Gson gson = new Gson();
                                     addfaceresult = gson.fromJson(Result, addFaceResult.class);
                                     progressDialog.dismiss();
@@ -265,63 +276,71 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                                     String result = Face.getFaceList("abcd", "groupTest");
                                     Gson gson = new Gson();
                                     getfacelistresult = gson.fromJson(result, getFaceListResult.class);
-                                    matchResult matchresult = gson.fromJson(Face.match(getfacelistresult.getResult().getFace_list().get(0).getFace_token()), matchResult.class);
-
-                                    progressDialog.dismiss();
-                                    Looper.prepare();
-                                    switch (matchresult.getError_code()) {
-                                        case 0: {
-                                            if (matchresult.getResult().getScore() >= 90) {
-                                                t("核查通过!");
-                                                progressDialog.dismiss();
-                                                Intent mainIntent = new Intent(CameraActivity.this, MainActivity.class);
-                                                startActivity(mainIntent);
-                                                finish();
-                                            }
-                                            else {
-                                                t("身份校验失败，请重试!");
-                                            }
-                                            break;
-                                        }
-                                        case 222202: {
-                                            t("没有在您的照片中检测到人脸，请重试!");
-                                            break;
-                                        }
-                                        case 222207: {
-                                            t("身份验证失败，请重试!");
-                                            break;
-                                        }
-                                        case 222205:
-                                        case 222206: {
-                                            t("服务端请求失败!");
-                                            break;
-                                        }
-                                        case 223113: {
-                                            t("对不起，检测到您的脸部被遮挡，请重试!");
-                                            break;
-                                        }
-                                        case 223114: {
-                                            t("对不起，检测到您的脸部模糊，请重试!");
-                                            break;
-                                        }
-                                        case 223115: {
-                                            t("对不起，您所处的环境光线不佳，请重试!");
-                                            break;
-                                        }
-                                        case 223116: {
-                                            t("对不起，检测到您的人脸不完整，请重试!");
-                                            break;
-                                        }
-                                        case 223120: {
-                                            t("对不起，活体检测未通过，请勿使用照片!");
-                                            break;
-                                        }
-                                        default: {
-                                            t(matchresult.getError_msg());
-                                            break;
-                                        }
+                                    if(getfacelistresult.getError_code() != 0) {
+                                        progressDialog.dismiss();
+                                        Looper.prepare();
+                                        t("检测到人脸库无您的资料，请重新安装应用以注册!");
+                                        Looper.loop();
                                     }
-                                    Looper.loop();
+                                    else {
+                                        String st_matchResult = Face.match(getfacelistresult.getResult().getFace_list().get(0).getFace_token());
+                                        matchResult matchresult = gson.fromJson(st_matchResult, matchResult.class);
+
+                                        progressDialog.dismiss();
+                                        Looper.prepare();
+                                        switch (matchresult.getError_code()) {
+                                            case 0: {
+                                                if (matchresult.getResult().getScore() >= 90) {
+                                                    t("核查通过!");
+                                                    progressDialog.dismiss();
+                                                    Intent mainIntent = new Intent(CameraActivity.this, MainActivity.class);
+                                                    startActivity(mainIntent);
+                                                    finish();
+                                                } else {
+                                                    t("身份校验失败，请重试!");
+                                                }
+                                                break;
+                                            }
+                                            case 222202: {
+                                                t("没有在您的照片中检测到人脸，请重试!");
+                                                break;
+                                            }
+                                            case 222207: {
+                                                t("身份验证失败，请重试!");
+                                                break;
+                                            }
+                                            case 222205:
+                                            case 222206: {
+                                                t("服务端请求失败!");
+                                                break;
+                                            }
+                                            case 223113: {
+                                                t("对不起，检测到您的脸部被遮挡，请重试!");
+                                                break;
+                                            }
+                                            case 223114: {
+                                                t("对不起，检测到您的脸部模糊，请重试!");
+                                                break;
+                                            }
+                                            case 223115: {
+                                                t("对不起，您所处的环境光线不佳，请重试!");
+                                                break;
+                                            }
+                                            case 223116: {
+                                                t("对不起，检测到您的人脸不完整，请重试!");
+                                                break;
+                                            }
+                                            case 223120: {
+                                                t("对不起，活体检测未通过，请勿使用照片!");
+                                                break;
+                                            }
+                                            default: {
+                                                t(matchresult.getError_msg());
+                                                break;
+                                            }
+                                        }
+                                        Looper.loop();
+                                    }
                                 }
                             }).start();
                             progressDialog.setTitle("请耐心等待");
