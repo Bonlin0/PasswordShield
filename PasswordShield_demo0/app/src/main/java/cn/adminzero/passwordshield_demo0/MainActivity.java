@@ -3,6 +3,7 @@ package cn.adminzero.passwordshield_demo0;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -319,6 +320,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
             }).start();
+            accountImage.setImageBitmap(IconFinder.lastFetchBitmap);
 //            try {
 //                accountImage.setImageBitmap(IconFinder.getBitmap(account.getUri()));
 //            } catch (IOException e) {
