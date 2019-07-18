@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -48,6 +49,16 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_password_generator);
         Toolbar toolbar = findViewById(R.id.toolbar_password_generator);
         setSupportActionBar(toolbar);
+        Button return_password=findViewById(R.id.return_password);
+        return_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(PasswordGeneratorActivity.this,AddAccountActivity.class);
+                intent.putExtra("data_return",password_generated_string);
+                setResult(RESULT_OK,intent);
+                finish();
+            }
+        });
 
         //ActionBar actionBar = getSupportActionBar();
         //actionBar.setDisplayHomeAsUpEnabled(true);
@@ -76,6 +87,16 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
         clipboardManager = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
         //在活动启动时，调用刷新口令函数
         refreshPassword();
+
+        //如果是从add_account活动进入该活动，显示最下方的返回键
+        Intent intent = getIntent();
+        // 默认不是从add_account进入
+        boolean isFromAddingAccount = intent.getBooleanExtra("from_add_account",
+                false);
+        if(!isFromAddingAccount){
+            Button returnButton = findViewById(R.id.return_password);
+            returnButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void refreshPassword(){

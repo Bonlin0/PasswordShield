@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        current_date=System.currentTimeMillis();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -149,15 +150,17 @@ public class MainActivity extends AppCompatActivity
     public  void onStart(){
         super.onStart();
         Log.d(TAG, "onStart");
-        /**SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-         int lock_min=sharedPreferences.getInt("time_to_lock",1);
-         Locktime = (lock_min)*60*1000;
-         if(Locktime < (System.currentTimeMillis() - current_date)){
-         Intent intent=new Intent(MainActivity.this,AuthenticationActivity.class);
-         startActivity(intent);
-         finish();
-         }
-         */
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int lock_min=Integer.parseInt(sharedPreferences.getString("time_to_lock","1"));
+        Locktime = (lock_min)*60*1000;
+        long sub_time=System.currentTimeMillis() - current_date;
+        Log.d(TAG, System.currentTimeMillis()+"-"+current_date+"sub_time"+sub_time+"lock_time"+Locktime);
+        if(Locktime < (sub_time)){
+            Intent intent=new Intent(MainActivity.this,AuthenticationActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
 
         accountList= DbUtil.initPasswordListView();
         MainActivity.List_adapter list_adapter = new MainActivity.List_adapter(MainActivity.this, R.layout.listview_image, accountList);

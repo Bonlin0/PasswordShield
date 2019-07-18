@@ -38,13 +38,13 @@ public class CreateUserActivity extends AppCompatActivity {
         String usernameInput  = usernameCreateEdit.getText().toString();
 
         //TODO  检测合法性
-        if(pKey.length()<=5) {
+        if(pKey.length()<5) {
             Toast.makeText(CreateUserActivity.this, R.string.password_is_not_valid ,
                     Toast.LENGTH_SHORT).show();
             masterPasswordEdit.setText("");
             return;
         }
-        if(usernameInput.length()<=3) {
+        if(usernameInput.length()<3) {
             Toast.makeText(CreateUserActivity.this, R.string.username_not_valid,
                     Toast.LENGTH_SHORT).show();
             usernameCreateEdit.setText("");

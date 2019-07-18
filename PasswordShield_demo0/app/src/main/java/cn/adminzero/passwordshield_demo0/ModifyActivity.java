@@ -57,8 +57,28 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                                 Toast.makeText(ModifyActivity.this,"调用API把密码复制到剪切板",Toast.LENGTH_LONG).show();
                                 break;
                             case R.id.password_display:
-                               // passwod_button.setText("123456789");
+                                // passwod_button.setText("123456789");
                                 passwod_button.setText(password);
+                                break;
+                            case R.id.enlarge_display:
+                               /* AlertDialog.Builder dialog=new AlertDialog.Builder(ModifyActivity.this);
+                                dialog.setTitle("password");
+                                dialog.setMessage(password);
+                                dialog.show();
+                                */
+                                final Button enlarge_diplay=(Button) findViewById(R.id.enlarge_dispaly_text);
+                                enlarge_diplay.setText(password);
+                                // enlarge_diplay.setBackgroundColor(R.color.enlarge_display);
+                                /*点击一下取消*/
+                                enlarge_diplay.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        enlarge_diplay.setText("");
+                                        //     enlarge_diplay.setBackgroundColor(R.color.touming);
+                                    }
+                                });
+
+                                break;
 
 
                         }

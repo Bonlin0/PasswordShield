@@ -54,11 +54,27 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
                 Toast.makeText(this,"取消添加账号信息",Toast.LENGTH_LONG).show();
                 break;
             case R.id.creat_password:
-                Intent intent_to_creat_password= new Intent(AddAccountActivity.this,PasswordGeneratorActivity.class);
-                startActivity(intent_to_creat_password);
+
+                Intent intent=new Intent(AddAccountActivity.this,
+                        PasswordGeneratorActivity.class);
+                intent.putExtra("from_add_account",true);
+                startActivityForResult(intent,1);
                 break;
             default:
                 break;
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode,Intent data){
+        switch (requestCode){
+            case 1:
+                if(resultCode==RESULT_OK){
+                    password_text.setText(data.getStringExtra("data_return"));
+
+                }
+                break;
+            default:
+
         }
     }
 }
