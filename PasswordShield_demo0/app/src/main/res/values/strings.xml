@@ -131,6 +131,9 @@
     <string name="no_website">No website</string>
     <string name="no_remarks_cy">No remarks</string>
     <string name="wrong_master_passsword">Wrong master password</string>
+    <string name="protect_your_password">Protect your password.</string>
+    <string name="password_shield">Password Shield</string>
+    <string name="username_not_valid">Your username is not valid. It can\'t be less than 3 characters. Please enter again.</string>
 
 
 </resources>

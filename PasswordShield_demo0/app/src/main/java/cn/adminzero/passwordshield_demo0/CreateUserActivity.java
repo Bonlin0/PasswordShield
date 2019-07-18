@@ -35,17 +35,17 @@ public class CreateUserActivity extends AppCompatActivity {
         masterPasswordEdit = findViewById(R.id.master_password_create_edit);
         String pKey  = masterPasswordEdit.getText().toString();
         usernameCreateEdit = findViewById(R.id.username_create_edit);
-        String usernameInput  = masterPasswordEdit.getText().toString();
+        String usernameInput  = usernameCreateEdit.getText().toString();
 
         //TODO  检测合法性
-        if(pKey.length()==0) {
+        if(pKey.length()<=5) {
             Toast.makeText(CreateUserActivity.this, R.string.password_is_not_valid ,
                     Toast.LENGTH_SHORT).show();
             masterPasswordEdit.setText("");
             return;
         }
-        if(usernameInput.length()==0) {
-            Toast.makeText(CreateUserActivity.this, "Your username is not valid. It can't be void. Please enter again." ,
+        if(usernameInput.length()<=3) {
+            Toast.makeText(CreateUserActivity.this, R.string.username_not_valid,
                     Toast.LENGTH_SHORT).show();
             usernameCreateEdit.setText("");
             return;
