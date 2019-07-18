@@ -138,5 +138,7 @@
     <string name="no_remarks">No remarks</string>
     <string name="back_password">return the password</string>
 
+    <string name="wrong_master_password">Your master password is not correct.
+        Please enter again.</string>
 
 </resources>

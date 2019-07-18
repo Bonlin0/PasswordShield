@@ -128,7 +128,8 @@ public class AuthenticationActivity extends AppCompatActivity {
             finish();
         }
         else{
-            Toast.makeText(this, "@string/wrong_master_passsword",Toast.LENGTH_SHORT);
+            Toast.makeText
+                    (this, R.string.wrong_master_password,Toast.LENGTH_SHORT).show();
             master_password_edit.setText("");
         }
 

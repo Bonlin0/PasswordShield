@@ -21,7 +21,7 @@
 
 
         <ListPreference
-            android:defaultValue="@string/fifteen_minutes"
+            android:defaultValue="1"
             android:entries="@array/time_to_lock_entries"
             android:entryValues="@array/time_to_lock_values"
             android:key="time_to_lock"
