@@ -41,22 +41,35 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()){
             case R.id.commit:
                 String input_account=account_text.getText().toString();
+                if("".equals(input_account)){
+                    Toast.makeText(this,"用户名不能为空",Toast.LENGTH_LONG).show();
+                    break;
+                }
                 String input_password=password_text.getText().toString();
+                if("".equals(input_password)){
+                    Toast.makeText(this,"密码不能为空",Toast.LENGTH_LONG).show();
+                    break;
+                }
                 String input_website=website_text.getText().toString();
-                String input_note=note_text.getText().toString();
+                if("".equals(input_website)){
+                    Toast.makeText(this,"网址不能为空，QQ可以输入www.qq.com,微信为www.wx.qq.com",Toast.LENGTH_LONG).show();
+                    break;
+                }
+
+                String input_note = note_text.getText().toString();
+
                 int input_type = 1;
-                AddAccount(input_account,input_password,input_type,input_website,input_note);
+                AddAccount(input_account, input_password, input_type, input_website, input_note);
                 finish();
-                //Toast.makeText(this,"账号"+input_account+"密码"+input_password+"网址"+input_website+"备注"+input_note,Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "账号" + input_account + "密码" + input_password + "网址" + input_website + "备注" + input_note, Toast.LENGTH_LONG).show();
                 break;
+
             case R.id.cancel:
                 finish();
                 Toast.makeText(this,"取消添加账号信息",Toast.LENGTH_LONG).show();
                 break;
             case R.id.creat_password:
-
-                Intent intent=new Intent(AddAccountActivity.this,
-                        PasswordGeneratorActivity.class);
+                Intent intent=new Intent(AddAccountActivity.this,PasswordGeneratorActivity.class);
                 intent.putExtra("from_add_account",true);
                 startActivityForResult(intent,1);
                 break;

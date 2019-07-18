@@ -1,5 +1,6 @@
 package cn.adminzero.passwordshield_demo0;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import android.view.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -72,6 +74,7 @@ import cn.adminzero.passwordshield_demo0.db.DbUtil;
 import cn.adminzero.passwordshield_demo0.entity.PasswordItem;
 import cn.adminzero.passwordshield_demo0.util.IconFinder;
 
+import static cn.adminzero.passwordshield_demo0.db.DbUtil.deletePasswordItem;
 import static cn.adminzero.passwordshield_demo0.db.DbUtil.fuck_database;
 
 public class MainActivity extends AppCompatActivity
@@ -126,6 +129,36 @@ public class MainActivity extends AppCompatActivity
                 intent_ToModifyActivity.putExtra("type", account.getType());
                 intent_ToModifyActivity.putExtra("note", account.getNote());
                 startActivity(intent_ToModifyActivity);
+            }
+        });
+        ///长按删除
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final PasswordItem account = accountList.get(position);
+                AlertDialog.Builder dialog=new AlertDialog.Builder(MainActivity.this);
+                dialog.setTitle("Delete the account");
+                dialog.setMessage("Are you sure to delete the account information?");
+                dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deletePasswordItem(account.getAccount(),account.getUri());
+                        //刷新
+                        //onCreate(null);
+                        Intent intent=new Intent(MainActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this,"Cancel",Toast.LENGTH_LONG).show();
+                    }
+                });
+                dialog.show();
+                //阻断
+                return true;
             }
         });
 
@@ -194,6 +227,37 @@ public class MainActivity extends AppCompatActivity
                 intent_ToModifyActivity.putExtra("note", account.getNote());
 
                 startActivity(intent_ToModifyActivity);
+            }
+        });
+        //长按删除
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final PasswordItem account = accountList.get(position);
+                AlertDialog.Builder dialog=new AlertDialog.Builder(MainActivity.this);
+                dialog.setTitle("Delete the account");
+                dialog.setMessage("Are you sure to delete the account information?");
+                dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deletePasswordItem(account.getAccount(),account.getUri());
+                        //刷新
+                        //onCreate(null);
+                        Intent intent=new Intent(MainActivity.this,MainActivity.class);
+
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this,"Cancel",Toast.LENGTH_LONG).show();
+                    }
+                });
+                dialog.show();
+                //阻断
+                return true;
             }
         });
 

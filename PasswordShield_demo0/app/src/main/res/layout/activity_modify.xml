@@ -96,14 +96,13 @@
 
                     <Button
                         android:id="@+id/password_display"
-                        android:layout_weight="1"
                         android:layout_width="match_parent"
-                        android:gravity="left"
-                        android:textSize="20dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
+                        android:layout_weight="1"
+                        android:gravity="left"
                         android:textAllCaps="false"
-                        />
+                        android:textSize="20dp" />
                     <TextView
                         android:id="@+id/website_name"
                         android:layout_width="wrap_content"

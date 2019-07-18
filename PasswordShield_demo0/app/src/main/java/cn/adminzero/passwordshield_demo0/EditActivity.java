@@ -58,8 +58,21 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.commit:
                 String input_account=account_text.getText().toString();
+                if("".equals(input_account)){
+                    Toast.makeText(this,"用户名不能为空",Toast.LENGTH_LONG).show();
+                    break;
+                }
                 String input_password=password_text.getText().toString();
+                if("".equals(input_password)){
+                    Toast.makeText(this,"密码不能为空",Toast.LENGTH_LONG).show();
+                    break;
+                }
                 String input_website=website_text.getText().toString();
+                if("".equals(input_website)){
+                    Toast.makeText(this,"网址不能为空，QQ可以输入www.qq.com,微信为www.wx.qq.com",Toast.LENGTH_LONG).show();
+                    break;
+                }
+
                 String input_note=note_text.getText().toString();
                 //删除原来的列表
                 deletePasswordItem(account_key,website_key);
@@ -74,6 +87,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.creat_password:
                 Intent intent_to_creat_password= new Intent(EditActivity.this,PasswordGeneratorActivity.class);
+                intent_to_creat_password.putExtra("from_add_account",true);
                 startActivity(intent_to_creat_password);
                 break;
             default:
