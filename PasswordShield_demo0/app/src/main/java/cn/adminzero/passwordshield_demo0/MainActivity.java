@@ -2,18 +2,26 @@ package cn.adminzero.passwordshield_demo0;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
 import android.view.View;
+
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+
 import android.view.MenuItem;
+
 import com.google.android.material.navigation.NavigationView;
+
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -53,6 +61,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ArrayList;
@@ -60,6 +69,7 @@ import java.util.List;
 
 import cn.adminzero.passwordshield_demo0.db.DbUtil;
 import cn.adminzero.passwordshield_demo0.entity.PasswordItem;
+import cn.adminzero.passwordshield_demo0.util.IconFinder;
 
 import static cn.adminzero.passwordshield_demo0.db.DbUtil.fuck_database;
 
@@ -76,12 +86,13 @@ public class MainActivity extends AppCompatActivity
     public long Locktime;
 
     static {
-        fuck_database();
+        //    fuck_database();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        current_date=System.currentTimeMillis();
+        current_date = System.currentTimeMillis();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -96,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         listView.setAdapter(adapter);
         */
         // initAccounts();
-        accountList= DbUtil.initPasswordListView();
+        accountList = DbUtil.initPasswordListView();
         MainActivity.List_adapter list_adapter = new MainActivity.List_adapter(MainActivity.this, R.layout.listview_image, accountList);
         ListView listView = (ListView) findViewById(R.id.mainlist_view);
         listView.setAdapter(list_adapter);
@@ -121,7 +132,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent_to_Add=new Intent(MainActivity.this,AddAccountActivity.class);
+                Intent intent_to_Add = new Intent(MainActivity.this, AddAccountActivity.class);
                 startActivity(intent_to_Add);
             }
         });
@@ -139,30 +150,31 @@ public class MainActivity extends AppCompatActivity
         //sharedPreferenceEditor = sharedPreferences.edit();
         //sharedPreferenceEditor.putString("preference_username",usernameInput);
         //sharedPreferenceEditor.apply();
-        String usernameToDisplay = sharedPreferences.getString("preference_username","Default Username");
+        String usernameToDisplay = sharedPreferences.getString("preference_username", "Default Username");
         TextView drawerUsername = navigationView.findViewById(R.id.drawer_username_text);
-        if(drawerUsername!=null){
+        if (drawerUsername != null) {
             drawerUsername.setText(usernameToDisplay);
         }
 
     }
+
     @Override
-    public  void onStart(){
+    public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int lock_min=Integer.parseInt(sharedPreferences.getString("time_to_lock","1"));
-        Locktime = (lock_min)*60*1000;
-        long sub_time=System.currentTimeMillis() - current_date;
-        Log.d(TAG, System.currentTimeMillis()+"-"+current_date+"sub_time"+sub_time+"lock_time"+Locktime);
-        if(Locktime < (sub_time)){
-            Intent intent=new Intent(MainActivity.this,AuthenticationActivity.class);
+        int lock_min = Integer.parseInt(sharedPreferences.getString("time_to_lock", "1"));
+        Locktime = (lock_min) * 60 * 1000;
+        long sub_time = System.currentTimeMillis() - current_date;
+        Log.d(TAG, System.currentTimeMillis() + "-" + current_date + "sub_time" + sub_time + "lock_time" + Locktime);
+        if (Locktime < (sub_time)) {
+            Intent intent = new Intent(MainActivity.this, AuthenticationActivity.class);
             startActivity(intent);
             finish();
         }
 
 
-        accountList= DbUtil.initPasswordListView();
+        accountList = DbUtil.initPasswordListView();
         MainActivity.List_adapter list_adapter = new MainActivity.List_adapter(MainActivity.this, R.layout.listview_image, accountList);
         ListView listView = (ListView) findViewById(R.id.mainlist_view);
         listView.setAdapter(list_adapter);
@@ -187,7 +199,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 //        //获取用户名并显示
 //        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -203,10 +215,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public  void onStop(){
+    public void onStop() {
         super.onStop();
-        current_date=System.currentTimeMillis();
-        Log.d(TAG, "onStop: "+current_date);
+        current_date = System.currentTimeMillis();
+        Log.d(TAG, "onStop: " + current_date);
 
     }
 
@@ -238,8 +250,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_about) {
             Toast.makeText(MainActivity.this, R.string.about, Toast.LENGTH_SHORT).show();
             return true;
-        }
-        else if (id == R.id.action_help) {
+        } else if (id == R.id.action_help) {
             Toast.makeText(MainActivity.this, R.string.help, Toast.LENGTH_SHORT).show();
             return true;
         }
@@ -255,7 +266,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_password_vault) {
-            Toast.makeText(MainActivity.this,"You are already here!",
+            Toast.makeText(MainActivity.this, "You are already here!",
                     Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_password_generator) {
             Intent passwordGeneratorIntent = new Intent
@@ -286,19 +297,44 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            PasswordItem account = getItem(position);//获取当前项的Account实例
+        public View getView(final int position, View convertView, final ViewGroup parent) {
+            final PasswordItem account = getItem(position);//获取当前项的Account实例
 
-            View view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
-            ImageView accountImage = (ImageView) view.findViewById(R.id.list_image);
+            final View view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
+            final ImageView accountImage = (ImageView) view.findViewById(R.id.list_image);
             TextView accountName = (TextView) view.findViewById(R.id.list_name);
-            accountImage.setImageResource(setImageId(account.getAccount()));
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        PasswordItem account = getItem(position);//获取当前项的Account实例
+
+                        View view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
+                        ImageView accountImage = (ImageView) view.findViewById(R.id.list_image);
+                        Bitmap bm = IconFinder.getBitmap(account.getUri());
+                        accountImage.setImageBitmap(bm);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+//            try {
+//                accountImage.setImageBitmap(IconFinder.getBitmap(account.getUri()));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+            //accountImage.setImageResource(IconFinder.getBitmap(account.getUri()));
+            //accountImage.setImageResource(setImageId(account.getAccount()));
             accountName.setText(account.getAccount());
             return view;
         }
-        /**给列表项分配对应的图片  然后在getView 中创建适配器时调用*/
-        private int setImageId(String account_name ){
-            int imageId=0;
+
+        /**
+         * 给列表项分配对应的图片  然后在getView 中创建适配器时调用
+         */
+        private int setImageId(String account_name) {
+            int imageId = 0;
             int c = (int) account_name.charAt(0);
           /*  if(c>=65 &&c<=90){
                 imageId=(65-c)+R.drawable.a;
@@ -308,170 +344,169 @@ public class MainActivity extends AppCompatActivity
             }
             else imageId=R.drawable.a;
             */
-            switch (c){
+            switch (c) {
                 case 65:
-                    imageId =  R.drawable.a;
+                    imageId = R.drawable.a;
                     break;
                 case 66:
-                    imageId =  R.drawable.b;
+                    imageId = R.drawable.b;
                     break;
                 case 67:
-                    imageId =  R.drawable.c;
+                    imageId = R.drawable.c;
                     break;
                 case 68:
-                    imageId =  R.drawable.d;
+                    imageId = R.drawable.d;
                     break;
                 case 69:
-                    imageId =  R.drawable.e;
+                    imageId = R.drawable.e;
                     break;
                 case 70:
-                    imageId =  R.drawable.f;
+                    imageId = R.drawable.f;
                     break;
                 case 71:
-                    imageId =  R.drawable.g;
+                    imageId = R.drawable.g;
                     break;
                 case 72:
-                    imageId =  R.drawable.h;
+                    imageId = R.drawable.h;
                     break;
                 case 73:
-                    imageId =  R.drawable.i;
+                    imageId = R.drawable.i;
                     break;
                 case 74:
-                    imageId =  R.drawable.j;
+                    imageId = R.drawable.j;
                     break;
                 case 75:
-                    imageId =  R.drawable.k;
+                    imageId = R.drawable.k;
                     break;
                 case 76:
-                    imageId =  R.drawable.l;
+                    imageId = R.drawable.l;
                     break;
                 case 77:
-                    imageId =  R.drawable.m;
+                    imageId = R.drawable.m;
                     break;
                 case 78:
-                    imageId =  R.drawable.n;
+                    imageId = R.drawable.n;
                     break;
                 case 79:
-                    imageId =  R.drawable.o;
+                    imageId = R.drawable.o;
                     break;
                 case 80:
-                    imageId =  R.drawable.p;
+                    imageId = R.drawable.p;
                     break;
                 case 81:
-                    imageId =  R.drawable.q;
+                    imageId = R.drawable.q;
                     break;
                 case 82:
-                    imageId =  R.drawable.r;
+                    imageId = R.drawable.r;
                     break;
                 case 83:
-                    imageId =  R.drawable.s;
+                    imageId = R.drawable.s;
                     break;
                 case 84:
-                    imageId =  R.drawable.t;
+                    imageId = R.drawable.t;
                     break;
                 case 85:
-                    imageId =  R.drawable.u;
+                    imageId = R.drawable.u;
                     break;
                 case 86:
-                    imageId =  R.drawable.v;
+                    imageId = R.drawable.v;
                     break;
                 case 87:
-                    imageId =  R.drawable.w;
+                    imageId = R.drawable.w;
                     break;
                 case 88:
-                    imageId =  R.drawable.x;
+                    imageId = R.drawable.x;
                     break;
                 case 89:
-                    imageId =  R.drawable.y;
+                    imageId = R.drawable.y;
                     break;
                 case 90:
-                    imageId =  R.drawable.z;
+                    imageId = R.drawable.z;
                     break;
                 case 97:
-                    imageId =  R.drawable.a;
+                    imageId = R.drawable.a;
                     break;
                 case 98:
-                    imageId =  R.drawable.b;
+                    imageId = R.drawable.b;
                     break;
                 case 99:
-                    imageId =  R.drawable.c;
+                    imageId = R.drawable.c;
                     break;
                 case 100:
-                    imageId =  R.drawable.d;
+                    imageId = R.drawable.d;
                     break;
                 case 101:
-                    imageId =  R.drawable.e;
+                    imageId = R.drawable.e;
                     break;
                 case 102:
-                    imageId =  R.drawable.f;
+                    imageId = R.drawable.f;
                     break;
                 case 103:
-                    imageId =  R.drawable.g;
+                    imageId = R.drawable.g;
                     break;
                 case 104:
-                    imageId =  R.drawable.h;
+                    imageId = R.drawable.h;
                     break;
                 case 105:
-                    imageId =  R.drawable.i;
+                    imageId = R.drawable.i;
                     break;
                 case 106:
-                    imageId =  R.drawable.j;
+                    imageId = R.drawable.j;
                     break;
                 case 107:
-                    imageId =  R.drawable.k;
+                    imageId = R.drawable.k;
                     break;
                 case 108:
-                    imageId =  R.drawable.l;
+                    imageId = R.drawable.l;
                     break;
                 case 109:
-                    imageId =  R.drawable.m;
+                    imageId = R.drawable.m;
                     break;
                 case 110:
-                    imageId =  R.drawable.n;
+                    imageId = R.drawable.n;
                     break;
                 case 111:
-                    imageId =  R.drawable.o;
+                    imageId = R.drawable.o;
                     break;
                 case 112:
-                    imageId =  R.drawable.p;
+                    imageId = R.drawable.p;
                     break;
                 case 113:
-                    imageId =  R.drawable.q;
+                    imageId = R.drawable.q;
                     break;
                 case 114:
-                    imageId =  R.drawable.r;
+                    imageId = R.drawable.r;
                     break;
                 case 115:
-                    imageId =  R.drawable.s;
+                    imageId = R.drawable.s;
                     break;
                 case 116:
-                    imageId =  R.drawable.t;
+                    imageId = R.drawable.t;
                     break;
                 case 117:
-                    imageId =  R.drawable.u;
+                    imageId = R.drawable.u;
                     break;
                 case 118:
-                    imageId =  R.drawable.v;
+                    imageId = R.drawable.v;
                     break;
                 case 119:
-                    imageId =  R.drawable.w;
+                    imageId = R.drawable.w;
                     break;
                 case 120:
-                    imageId =  R.drawable.x;
+                    imageId = R.drawable.x;
                     break;
                 case 121:
-                    imageId =  R.drawable.y;
+                    imageId = R.drawable.y;
                     break;
                 case 122:
-                    imageId =  R.drawable.z;
+                    imageId = R.drawable.z;
                     break;
                 default:
-                    imageId =  R.drawable.add;
+                    imageId = R.drawable.add;
                     break;
             }
             return imageId;
         }
-
 
 
     }

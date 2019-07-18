@@ -68,11 +68,11 @@
     <PreferenceCategory app:title="@string/others_header">
 
         <ListPreference
-            android:defaultValue="@string/light"
-            android:entries="@array/themes_entries"
-            android:entryValues="@array/themes_values"
-            android:key="list_theme"
-            android:title="@string/theme"
+            android:defaultValue="English"
+            android:entries="@array/Language_entries"
+            android:entryValues="@array/Language_values"
+            android:key="Language_setting"
+            android:title="Language"
             app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
