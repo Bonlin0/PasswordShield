@@ -18,7 +18,7 @@ import cn.adminzero.passwordshield_demo0.util.SHA256;
 public class CreateUserActivity extends AppCompatActivity {
 
     EditText masterPasswordEdit;
-
+    EditText usernameCreateEdit;
     //TODO 确认主密码Edit Text
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,21 +31,32 @@ public class CreateUserActivity extends AppCompatActivity {
     }
 
     public void onClickConfirm(View view){
+        //获取输入框内容
         masterPasswordEdit = findViewById(R.id.master_password_create_edit);
-
-//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        SharedPreferences.Editor sharedPreferenceEditor;
-//        sharedPreferenceEditor = sharedPreferences.edit();
-//        sharedPreferenceEditor.putBoolean("isUserCreated",true);
-//        sharedPreferenceEditor.apply();
-
         String pKey  = masterPasswordEdit.getText().toString();
+        usernameCreateEdit = findViewById(R.id.username_create_edit);
+        String usernameInput  = masterPasswordEdit.getText().toString();
+
         //TODO  检测合法性
         if(pKey.length()==0) {
             Toast.makeText(CreateUserActivity.this, R.string.password_is_not_valid ,
                     Toast.LENGTH_SHORT).show();
+            masterPasswordEdit.setText("");
             return;
         }
+        if(usernameInput.length()==0) {
+            Toast.makeText(CreateUserActivity.this, "Your username is not valid. It can't be void. Please enter again." ,
+                    Toast.LENGTH_SHORT).show();
+            usernameCreateEdit.setText("");
+            return;
+        }
+        //存储用户名
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor sharedPreferenceEditor;
+        sharedPreferenceEditor = sharedPreferences.edit();
+        sharedPreferenceEditor.putString("preference_username",usernameInput);
+        sharedPreferenceEditor.apply();
+
         initKey(pKey);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

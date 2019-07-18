@@ -57,7 +57,7 @@
 
         <EditTextPreference
             android:defaultValue="Your Username"
-            android:key="edit_username"
+            android:key="preference_username"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="@string/change_username"

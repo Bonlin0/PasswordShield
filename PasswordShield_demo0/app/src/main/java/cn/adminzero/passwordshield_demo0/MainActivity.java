@@ -1,6 +1,7 @@
 package cn.adminzero.passwordshield_demo0;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -41,6 +42,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 import android.view.Menu;
 import android.view.ViewGroup;
@@ -59,6 +61,8 @@ import java.util.List;
 import cn.adminzero.passwordshield_demo0.db.DbUtil;
 import cn.adminzero.passwordshield_demo0.entity.PasswordItem;
 
+import static cn.adminzero.passwordshield_demo0.db.DbUtil.fuck_database;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -71,6 +75,9 @@ public class MainActivity extends AppCompatActivity
     //public  Boolean isFirstLogin = true;
     public long Locktime;
 
+    static {
+        fuck_database();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +132,17 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        //获取用户名并显示
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //SharedPreferences.Editor sharedPreferenceEditor;
+        //sharedPreferenceEditor = sharedPreferences.edit();
+        //sharedPreferenceEditor.putString("preference_username",usernameInput);
+        //sharedPreferenceEditor.apply();
+        String usernameToDisplay = sharedPreferences.getString("preference_username","Default Username");
+        TextView drawerUsername = navigationView.findViewById(R.id.drawer_username_text);
+        if(drawerUsername!=null){
+            drawerUsername.setText(usernameToDisplay);
+        }
 
     }
     @Override
@@ -164,6 +182,23 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+//        //获取用户名并显示
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        //SharedPreferences.Editor sharedPreferenceEditor;
+//        //sharedPreferenceEditor = sharedPreferences.edit();
+//        //sharedPreferenceEditor.putString("preference_username",usernameInput);
+//        //sharedPreferenceEditor.apply();
+//        String usernameToDisplay = sharedPreferences.getString("preference_username","Default Username");
+//        TextView drawerUsername = findViewById(R.id.drawer_username);
+//        if(drawerUsername!=null){
+//            drawerUsername.setText(usernameToDisplay);
+//        }
+    }
+
     @Override
     public  void onStop(){
         super.onStop();

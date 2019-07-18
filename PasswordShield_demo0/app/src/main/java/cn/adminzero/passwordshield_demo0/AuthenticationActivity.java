@@ -8,6 +8,8 @@ import androidx.preference.PreferenceManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.fingerprint.FingerprintManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,6 +21,8 @@ import android.widget.Toast;
 import cn.adminzero.passwordshield_demo0.biometriclib.BiometricPromptManager;
 import cn.adminzero.passwordshield_demo0.util.MyStorage;
 import cn.adminzero.passwordshield_demo0.util.SHA256;
+
+import static cn.adminzero.passwordshield_demo0.util.LogUtils.t;
 
 //TODO Font color of Tool bar is black
 
@@ -41,7 +45,11 @@ public class AuthenticationActivity extends AppCompatActivity {
         //设置指纹识别相关
         unlockWithFingerprintButton = findViewById(R.id.unlock_with_fingerprint_button);
         unlockWithFaceButton = findViewById(R.id.unlock_with_face_button);
-        fingerprintManager = BiometricPromptManager.from(this);
+        if (isHardwareDetected() && hasEnrolledFingerprints()) {
+            fingerprintManager = BiometricPromptManager.from(this);
+        } else {
+            fingerprintManager = null;
+        }
         master_password_edit = findViewById(R.id.master_password_edit);
 
         //检查设置文件
@@ -67,6 +75,44 @@ public class AuthenticationActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Determine if there is at least one fingerprint enrolled.
+     *
+     * @return true if at least one fingerprint is enrolled, false otherwise
+     */
+    public boolean hasEnrolledFingerprints() {
+        if (isAboveApi23()) {
+            //TODO 这是Api23的判断方法，也许以后有针对Api28的判断方法
+            final FingerprintManager manager = this.getSystemService(FingerprintManager.class);
+            return manager != null && manager.hasEnrolledFingerprints();
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Determine if fingerprint hardware is present and functional.
+     *
+     * @return true if hardware is present and functional, false otherwise.
+     */
+    private boolean isHardwareDetected() {
+        if (isAboveApi23()) {
+            //TODO 这是Api23的判断方法，也许以后有针对Api28的判断方法
+            final FingerprintManager fm = this.getSystemService(FingerprintManager.class);
+            return fm != null && fm.isHardwareDetected();
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isAboveApi28() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
+    }
+
+    private boolean isAboveApi23() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
 
@@ -99,6 +145,18 @@ public class AuthenticationActivity extends AppCompatActivity {
     }
 
     public void onClickUnlockWithFingerPrint(View view) {
+        //指纹使用条件检测
+        if (fingerprintManager == null) {
+            if (!isAboveApi23()) {
+                t("指纹API未达到23及以上");
+            } else if (!isHardwareDetected()) {
+                t("缺乏指纹硬件支持");
+            } else {
+                t("系统未注册指纹");
+            }
+            return;
+        }
+
         if (fingerprintManager.isBiometricPromptEnable()) {
             fingerprintManager.authenticate(new BiometricPromptManager.OnBiometricIdentifyCallback() {
                 @Override

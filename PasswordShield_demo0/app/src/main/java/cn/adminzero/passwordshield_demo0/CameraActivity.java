@@ -61,6 +61,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private boolean face_check_valid;
     private getFaceListResult getfacelistresult;
     private AlertDialog.Builder dialog3;
+    public String usernameID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +144,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
         if (!faceIsRegistered)
             dialog.show();
+
+
+        String usernameID = sharedPreferences.getString("preference_username","Default Username");
     }
 
     /**
@@ -210,7 +214,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-                                    String Result = Face.addFace(encode, "abcd", "groupTest");
+                                    String Result = Face.addFace(encode, usernameID, "groupTest");
                                     Gson gson = new Gson();
                                     addfaceresult = gson.fromJson(Result, addFaceResult.class);
                                     progressDialog.dismiss();
@@ -273,7 +277,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    String result = Face.getFaceList("abcd", "groupTest");
+                                    String result = Face.getFaceList(usernameID, "groupTest");
                                     Gson gson = new Gson();
                                     getfacelistresult = gson.fromJson(result, getFaceListResult.class);
                                     if(getfacelistresult.getError_code() != 0) {
