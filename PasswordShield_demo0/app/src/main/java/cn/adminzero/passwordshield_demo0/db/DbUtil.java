@@ -1,15 +1,29 @@
 package cn.adminzero.passwordshield_demo0.db;
 
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.adminzero.passwordshield_demo0.MyApplication;
+import cn.adminzero.passwordshield_demo0.R;
+import cn.adminzero.passwordshield_demo0.entity.ControledApp;
 import cn.adminzero.passwordshield_demo0.entity.PasswordItem;
 import cn.adminzero.passwordshield_demo0.util.Encryption;
+import cn.adminzero.passwordshield_demo0.util.MyStorage;
 
 import static cn.adminzero.passwordshield_demo0.util.LogUtils.d;
 import static cn.adminzero.passwordshield_demo0.util.LogUtils.t;
@@ -87,7 +101,7 @@ public class DbUtil {
      * 添加账户函数 提前需检查
      * 数据合法性,  防止崩溃
      */
-    public static boolean AddAccount(String account, String password, int type, String uri, String note) {
+    public static boolean AddAccount(String name, String account, String password, int type, String uri, String note) {
 
         SQLiteDatabase db = getDatabase();
         password = new Encryption().encode(password);
@@ -96,8 +110,8 @@ public class DbUtil {
             note = "none";
         }
         try {
-            db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)",
-                    new String[]{account, password, String.valueOf(type), uri, note}
+            db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)",
+                    new String[]{name, account, password, String.valueOf(type), uri, note}
             );
             return true;
         } catch (Exception e) {
@@ -118,7 +132,7 @@ public class DbUtil {
         List<PasswordItem> passwordItemList = new ArrayList<PasswordItem>();
         SQLiteDatabase db = getDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM PasswordItem ORDER BY type;", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM PasswordItem ORDER BY type, uri;", null);
         Encryption encryption = new Encryption();
         String ciperText;
         int id = 1;
@@ -126,6 +140,7 @@ public class DbUtil {
             do {
                 PasswordItem passwordItem = new PasswordItem();
                 passwordItem.setId(id);
+                passwordItem.setName(cursor.getString(cursor.getColumnIndex("name")));
                 passwordItem.setAccount(cursor.getString(cursor.getColumnIndex("account")));
                 /*-------------------------------------------*/
                 //解密password
@@ -158,7 +173,7 @@ public class DbUtil {
     public static List<PasswordItem> getPasswordItemByUri(String uri) {
         List<PasswordItem> passwordItemList = new ArrayList<PasswordItem>();
         SQLiteDatabase db = getDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM PasswordItem WHERE uri = ? ;", new String[]{uri});
+        Cursor cursor = db.rawQuery("SELECT * FROM PasswordItem WHERE uri = ? order by uri;", new String[]{uri});
         Encryption encryption = new Encryption();
         String ciperText;
         int id = 1;
@@ -166,6 +181,7 @@ public class DbUtil {
             do {
                 PasswordItem passwordItem = new PasswordItem();
                 passwordItem.setId(id);
+                passwordItem.setName(cursor.getString(cursor.getColumnIndex("name")));
                 passwordItem.setAccount(cursor.getString(cursor.getColumnIndex("account")));
                 /*-------------------------------------------*/
                 //解密password
@@ -213,22 +229,194 @@ public class DbUtil {
      */
 
     //伪造数据库
-    public static void fuck_database() {
+    public static void init_database() {
         Encryption encryption = new Encryption();
 
         SQLiteDatabase db = getDatabase();
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"百度", encryption.encode("zjc"), String.valueOf(1), "www.baidu.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"jd", encryption.encode("zjc"), String.valueOf(1), "www.jd.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"qq", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.qq.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"taobao", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.taobao.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"sina", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.sina.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"sohu", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.sohu.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"csdn", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.csdn.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"163", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.163.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"Telephony", "13778791018", encryption.encode("12345678"), String.valueOf(1), "com.android.providers.telephony", "百度大号"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"Gmail", "12345678@gamil.com", encryption.encode("82unuf32ny3yd"), String.valueOf(1), "com.google.android.gm", "谷歌邮件"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"Chrome", "9832687@qq.com", encryption.encode("woaini111"), String.valueOf(1), "com.android.chrome", "谷歌浏览器"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"Google Play Movies&TV", "zhaojunchen@gamil。com", encryption.encode("zhaojunchen123"), String.valueOf(1), "com.google.android.videos", "谷歌视频"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"Photos", "17702737629", encryption.encode("897621312674.."), String.valueOf(1), "com.google.android.videos", "相册"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"Live wallpaper", "382647121232", encryption.encode("wangxiang520."), String.valueOf(1), "com.android.wallpaper.live.picker", "CSDN小号"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"Wechat", "Hecate_sairen", encryption.encode("wuhaoling123."), String.valueOf(1), "com.tencent.mm", "微信"});
+
 
 
     }
 
+
+    public static ControledApp fetchAppInfo(String uri) {
+        SQLiteDatabase db = getDatabase();
+
+        Cursor cursor = db.rawQuery("select * from ControledApp where uri = ? ;", new String[]{uri});
+
+        Drawable none = MyApplication.getContext().getResources().getDrawable(R.drawable.key);
+        ControledApp data = new ControledApp();
+        byte[] bytes;
+
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    bytes = cursor.getBlob(cursor.getColumnIndex("image"));
+                    if (bytes != null && bytes.length != 0) {
+                        data.setIcon(bitmapToDrawable(bytesToBitmap(bytes)));
+                    } else {
+                        data.setIcon(none);
+                    }
+
+                    data.setLable(cursor.getString(cursor.getColumnIndex("lable")));
+                    data.setPackageName(cursor.getString(cursor.getColumnIndex("uri")));
+                    return data;
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            data.setIcon(none);
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (db != null) {
+                db.close();
+            }
+
+        }
+        data.setIcon(none);
+        return data;
+    }
+
+
+    public static List<ControledApp> fetchAllAppInfo() {
+        SQLiteDatabase db = getDatabase();
+        List<ControledApp> dataList = new ArrayList<ControledApp>();
+
+        Cursor cursor = db.rawQuery("select * from ControledApp;", null);
+        byte[] bytes;
+
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    ControledApp data = new ControledApp();
+                    bytes = cursor.getBlob(cursor.getColumnIndex("image"));
+                    if (bytes != null && bytes.length != 0) {
+                        data.setIcon(bitmapToDrawable(bytesToBitmap(bytes)));
+                    } else {
+                        data.setIcon(null);
+                    }
+
+                    data.setLable(cursor.getString(cursor.getColumnIndex("lable")));
+                    data.setPackageName(cursor.getString(cursor.getColumnIndex("uri")));
+                    dataList.add(data);
+                } while (cursor.moveToNext());
+            }
+            return dataList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (db != null) {
+                db.close();
+            }
+
+        }
+        return null;
+    }
+
+    public static void storeAppInfo() {
+        //  获取终端上安装的应用程序列表信息
+        final PackageManager pm = MyApplication.getContext().getPackageManager();
+        final int flags = PackageManager.GET_UNINSTALLED_PACKAGES | PackageManager.GET_DISABLED_COMPONENTS;
+        @SuppressLint("WrongConstant") final List<ApplicationInfo> installedAppList = pm.getInstalledApplications(flags);
+        int count = installedAppList.size();
+        MyStorage myStorage = new MyStorage();
+        if (myStorage.getData("installedAppListCount").equals(String.valueOf(count))) {
+            return;
+        }
+
+        // 将列表数据存储在列表中
+        SQLiteDatabase db = getDatabase();
+        db.execSQL("delete from ControledApp;");
+        Drawable drawable;
+        for (ApplicationInfo app : installedAppList) {
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("lable", app.loadLabel(pm).toString());
+            contentValues.put("uri", app.packageName);
+
+            drawable = app.loadIcon(pm);
+            if (drawable != null) {
+                contentValues.put("image", bitmapTobytes(drawableToBitmap(drawable)));
+            } else {
+                contentValues.put("image", "");
+            }
+            db.insert("ControledApp", null, contentValues);
+            contentValues.clear();
+        }
+        if (db != null) {
+            db.close();
+        }
+
+        myStorage.storeData("installedAppListCount", String.valueOf(count));
+
+    }
+
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        int w = drawable.getIntrinsicWidth();
+        int h = drawable.getIntrinsicHeight();
+        System.out.println("Drawable转Bitmap");
+        try {
+            Bitmap.Config config =
+                    drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                            : Bitmap.Config.RGB_565;
+            Bitmap bitmap = Bitmap.createBitmap(w, h, config);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+            return bitmap;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+        }
+
+        return null;
+
+    }
+
+
+    public static Drawable bitmapToDrawable(Bitmap bitmap) {
+        if (bitmap != null)
+            return new BitmapDrawable(MyApplication.getContext().getResources(), bitmap);
+        return null;
+    }
+
+
+    /**
+     * byte串转换为Bitmap
+     */
+    public static Bitmap bytesToBitmap(byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
+        if (bytes.length != 0) {
+            return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        }
+        return null;
+    }
+
+    public static byte[] bitmapTobytes(Bitmap bm) {
+        if (bm != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            return baos.toByteArray();
+        }
+        return null;
+    }
 
 }
 

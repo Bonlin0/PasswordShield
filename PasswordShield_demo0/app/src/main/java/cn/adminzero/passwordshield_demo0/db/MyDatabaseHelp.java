@@ -23,6 +23,7 @@ public class MyDatabaseHelp extends SQLiteOpenHelper {
 
     private static final String PasswordItem =
             "CREATE TABLE PasswordItem(" +
+                    "   name              TEXT    NOT NULL," +
                     "   account           TEXT    NOT NULL," +
                     "   password          TEXT    NOT NULL," +
                     "   uri               TEXT    NOT NULL," +
@@ -33,7 +34,9 @@ public class MyDatabaseHelp extends SQLiteOpenHelper {
 
     private static final String ControledApp =
             "CREATE TABLE ControledApp(" +
+                    "   lable          TEXT      NOT NULL," +
                     "   uri            TEXT      NOT NULL," +
+                    "   image          BLOB              ," +
                     "   constraint pk  primary key(uri)   " +
                     ");";
 

@@ -10,6 +10,8 @@ public class PasswordItem {
      * 主属性id
      */
     private int id;
+
+    private String name;
     /**
      * app登录账户名
      */
@@ -31,8 +33,16 @@ public class PasswordItem {
      * 备注信息
      */
     private String note;
-    public PasswordItem() {
 
+    public PasswordItem() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getType() {

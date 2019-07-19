@@ -75,7 +75,10 @@ import cn.adminzero.passwordshield_demo0.entity.PasswordItem;
 import cn.adminzero.passwordshield_demo0.util.IconFinder;
 
 import static cn.adminzero.passwordshield_demo0.db.DbUtil.deletePasswordItem;
-import static cn.adminzero.passwordshield_demo0.db.DbUtil.fuck_database;
+import static cn.adminzero.passwordshield_demo0.db.DbUtil.fetchAppInfo;
+import static cn.adminzero.passwordshield_demo0.db.DbUtil.init_database;
+import static cn.adminzero.passwordshield_demo0.db.DbUtil.storeAppInfo;
+//import static cn.adminzero.passwordshield_demo0.db.DbUtil.fuck_database;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -91,6 +94,10 @@ public class MainActivity extends AppCompatActivity
 
     static {
             //fuck_database();
+    }
+    static {
+//        init_database();
+        storeAppInfo();
     }
 
     @Override
@@ -128,6 +135,7 @@ public class MainActivity extends AppCompatActivity
                 intent_ToModifyActivity.putExtra("uri", account.getUri());
                 intent_ToModifyActivity.putExtra("type", account.getType());
                 intent_ToModifyActivity.putExtra("note", account.getNote());
+                intent_ToModifyActivity.putExtra("name",account.getName());
                 startActivity(intent_ToModifyActivity);
             }
         });
@@ -225,6 +233,7 @@ public class MainActivity extends AppCompatActivity
                 intent_ToModifyActivity.putExtra("type", account.getType());
                 intent_ToModifyActivity.putExtra("uri", account.getUri());
                 intent_ToModifyActivity.putExtra("note", account.getNote());
+                intent_ToModifyActivity.putExtra("name",account.getName());
 
                 startActivity(intent_ToModifyActivity);
             }
@@ -363,36 +372,41 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public View getView(final int position, View convertView, final ViewGroup parent) {
-            final PasswordItem account = getItem(position);//获取当前项的Account实例
+            PasswordItem account = getItem(position);//获取当前项的Account实例
 
-            final View view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
-            final ImageView accountImage = (ImageView) view.findViewById(R.id.list_image);
+            View view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
+            // int permissionCheck = ContextCompat.checkSelfPermission(this,Manifest.WRITE_EXTERNAL_STORAGE);
+
+            //  final View view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
+            ImageView accountImage = (ImageView) view.findViewById(R.id.list_image);
             TextView accountName = (TextView) view.findViewById(R.id.list_name);
-            new Thread(new Runnable() {
+            TextView account_username=(TextView) view.findViewById(R.id.list_account);
+         /*   new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         PasswordItem account = getItem(position);//获取当前项的Account实例
-
                         View view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
                         ImageView accountImage = (ImageView) view.findViewById(R.id.list_image);
                         Bitmap bm = IconFinder.getBitmap(account.getUri());
                         accountImage.setImageBitmap(bm);
+
+                        //   imageView.buildDrawingCache();
+                        //  Bitmap bm = imageView.getDrawingCache();
 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }).start();
-            accountImage.setImageBitmap(IconFinder.lastFetchBitmap);
-//            try {
-//                accountImage.setImageBitmap(IconFinder.getBitmap(account.getUri()));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-            //accountImage.setImageResource(IconFinder.getBitmap(account.getUri()));
-            //accountImage.setImageResource(setImageId(account.getAccount()));
-            accountName.setText(account.getAccount());
+            //   accountImage.setImageBitmap(IconFinder.lastFetchBitmap);
+            */
+
+
+            accountImage.setImageDrawable(fetchAppInfo(account.getUri()).getIcon());
+//            accountImage.setImageResource(setImageId(account.getAccount()));
+            accountName.setText(account.getName());
+            account_username.setText(account.getAccount());
             return view;
         }
 

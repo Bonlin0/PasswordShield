@@ -19,10 +19,12 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     private String password;
     private String website;
     private String note;
+    private String name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent_FromListActivity=getIntent();
+        name=intent_FromListActivity.getStringExtra("name");
         username=intent_FromListActivity.getStringExtra("account");
         password=intent_FromListActivity.getStringExtra("password");
         website=intent_FromListActivity.getStringExtra("uri");
@@ -34,12 +36,15 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         Button note_button=(Button) findViewById(R.id.note_display);
         Button edit_button=(Button) findViewById(R.id.edit_account);
         Button back_button=(Button) findViewById(R.id.back_account);
+        Button name_account=(Button) findViewById(R.id.account_name);
 
 
         note_button.setText(note);
         website_button.setText(website);
         passwod_button.setText("●●●●●●●●●●");
         username_button.setText(username);
+        name_account.setText(name);
+
 
         passwod_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +117,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                 intent_ToEditActivity.putExtra("password",password);
                 intent_ToEditActivity.putExtra("uri",website);
                 intent_ToEditActivity.putExtra("note",note);
+                intent_ToEditActivity.putExtra("name",name);
                 Toast.makeText(ModifyActivity.this, "修改", Toast.LENGTH_SHORT).show();
                 startActivity(intent_ToEditActivity);
                 finish();

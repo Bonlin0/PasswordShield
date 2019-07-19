@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
     <string name="app_name">PasswordShield_demo0</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -140,5 +140,12 @@
 
     <string name="wrong_master_password">Your master password is not correct.
         Please enter again.</string>
+
+    <string name="wrong_master_passsword">Wrong master password</string>
+
+    <string name="edit_delete">Delete</string>
+    <string name="account_name">Name</string>
+    <string name="Type_in_name">Type in the name</string>
+
 
 </resources>
