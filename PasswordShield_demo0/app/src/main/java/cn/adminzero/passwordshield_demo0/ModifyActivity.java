@@ -82,6 +82,9 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                                 */
                                 final Button enlarge_diplay=(Button) findViewById(R.id.enlarge_dispaly_text);
                                 enlarge_diplay.setText(password);
+                                Toast.makeText(ModifyActivity.this,
+                                        "Please scroll down to see the Enlarged Password.",
+                                        Toast.LENGTH_SHORT).show();
                                 // enlarge_diplay.setBackgroundColor(R.color.enlarge_display);
                                 /*点击一下取消*/
                                 enlarge_diplay.setOnClickListener(new View.OnClickListener() {

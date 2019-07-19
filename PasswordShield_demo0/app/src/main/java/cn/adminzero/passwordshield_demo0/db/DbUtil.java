@@ -228,19 +228,19 @@ public class DbUtil {
      * 插入数据库
      */
 
-    //伪造数据库
+    //伪造（初始化）数据库
     public static void init_database() {
         Encryption encryption = new Encryption();
 
         SQLiteDatabase db = getDatabase();
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"Telephony", "13778791018", encryption.encode("12345678"), String.valueOf(1), "com.android.providers.telephony", ""});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"Telephone", "13778791018", encryption.encode("12345678"), String.valueOf(1), "com.android.providers.telephony", "手机默认"});
         db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"网易云音乐", "12345678@163.com", encryption.encode("82unuf32ny3yd"), String.valueOf(1), "com.netease.cloudmusic", "网易云"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"支付宝", "98326287@qq.com", encryption.encode("woaini111"), String.valueOf(1), "com.eg.android.AlipayGphone", "吴昊林的支付宝"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"QQ", "4865238221", encryption.encode("zhaojunchen123"), String.valueOf(1), "com.tencent.mobileqq", "qq密码"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"支付宝", "98326287@qq.com", encryption.encode("woaini111"), String.valueOf(1), "com.eg.android.AlipayGphone", "我的支付宝"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"QQ", "4865238221", encryption.encode("zhaojunchen123"), String.valueOf(1), "com.tencent.mobileqq", "QQ大号"});
         db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"Photos", "17702737629", encryption.encode("897621312674.."), String.valueOf(1), "com.google.android.videos", "相册"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"淘宝", "1372623452", encryption.encode("wangxiang520."), String.valueOf(1), "com.taobao.taobao", "淘宝"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"淘宝", "1372623452", encryption.encode("wangxiang520."), String.valueOf(1), "com.taobao.taobao", "剁剁剁"});
         db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"微信", "Hecate_sairen", encryption.encode("wuhaoling123."), String.valueOf(1), "com.tencent.mm", "微信"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"百度云盘", "327865492@qq.com", encryption.encode("wuhaoling123."), String.valueOf(1), "com.baidu.netdisk", "吴昊林存的学习资源"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"百度云盘", "327865492@qq.com", encryption.encode("wuhaoling123."), String.valueOf(1), "com.baidu.netdisk", "百度云资料"});
         db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"京东", "wuhaoling@gmail.com", encryption.encode("wuhaoling123."), String.valueOf(1), "com.jingdong.app.mall", "买买买"});
 
     }
