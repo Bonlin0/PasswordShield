@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PasswordItem account = accountList.get(position);
-                Toast.makeText(MainActivity.this, account.getAccount(), Toast.LENGTH_LONG).show();
+                // Toast.makeText(MainActivity.this, account.getAccount(), Toast.LENGTH_LONG).show();
                 Intent intent_ToModifyActivity = new Intent(MainActivity.this, ModifyActivity.class);
                 intent_ToModifyActivity.putExtra("id", account.getId());
                 intent_ToModifyActivity.putExtra("account", account.getAccount());
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity
                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(MainActivity.this,"Cancel",Toast.LENGTH_LONG).show();
+                        // Toast.makeText(MainActivity.this,"Cancel",Toast.LENGTH_LONG).show();
                     }
                 });
                 dialog.show();
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PasswordItem account = accountList.get(position);
-                Toast.makeText(MainActivity.this, account.getAccount(), Toast.LENGTH_LONG).show();
+                // Toast.makeText(MainActivity.this, account.getAccount(), Toast.LENGTH_LONG).show();
                 Intent intent_ToModifyActivity = new Intent(MainActivity.this, ModifyActivity.class);
                 intent_ToModifyActivity.putExtra("id", account.getId());
                 intent_ToModifyActivity.putExtra("account", account.getAccount());
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity
                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(MainActivity.this,"Cancel",Toast.LENGTH_LONG).show();
+                        // Toast.makeText(MainActivity.this,"Cancel",Toast.LENGTH_LONG).show();
                     }
                 });
                 dialog.show();
