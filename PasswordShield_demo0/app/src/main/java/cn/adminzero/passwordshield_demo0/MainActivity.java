@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity
     public long Locktime;
 
     static {
-        //    fuck_database();
+            //fuck_database();
     }
 
     @Override

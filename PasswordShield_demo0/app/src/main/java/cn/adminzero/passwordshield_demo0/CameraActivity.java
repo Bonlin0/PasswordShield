@@ -146,7 +146,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             dialog.show();
 
 
-        String usernameID = sharedPreferences.getString("preference_username","Default Username");
+        usernameID = sharedPreferences.getString("preference_username","Default Username");
     }
 
     /**

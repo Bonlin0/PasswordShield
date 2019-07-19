@@ -217,19 +217,14 @@ public class DbUtil {
         Encryption encryption = new Encryption();
 
         SQLiteDatabase db = getDatabase();
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"123456", encryption.encode("zjc"), String.valueOf(1), "www.baizjc.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"245erwrywry", encryption.encode("zjc"), String.valueOf(1), "www.baizjcas.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"122453253456", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.baizasdjc.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"1235twet34456", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.baidaszjc.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"123rtwtwtw456", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.basdaizjc.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"fgjghjgfjfdgser", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.asdsabaizjc.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"hgfgjgjjfj", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.bdsddaizjc.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"hjhgj", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.dfgbaizjc.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"12dghf3456", encryption.encode("zjcadasdasdasd"), String.valueOf(2), "www.gfbaizjc.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"fasd", encryption.encode("zjcadasdasdasd"), String.valueOf(2), "www.baizjc.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"fadfads", encryption.encode("zjcadasdasdasd"), String.valueOf(2), "www.gdfbaizjc.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"asdfd", encryption.encode("zjcadasdasdasd"), String.valueOf(2), "www.gdfbgdaizjc.com", "1号备注"});
-        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"asdsadasfd6", encryption.encode("zjcadasdasdasd"), String.valueOf(2), "www.mnbmgaizjc.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"百度", encryption.encode("zjc"), String.valueOf(1), "www.baidu.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"jd", encryption.encode("zjc"), String.valueOf(1), "www.jd.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"qq", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.qq.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"taobao", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.taobao.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"sina", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.sina.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"sohu", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.sohu.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"csdn", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.csdn.com", "1号备注"});
+        db.execSQL("INSERT INTO PasswordItem (account, password, type, uri, note) values (?,?,?,?,?)", new String[]{"163", encryption.encode("zjcadasdasdasd"), String.valueOf(1), "www.163.com", "1号备注"});
 
 
     }
