@@ -120,8 +120,6 @@
             </FrameLayout>
 
 
-
-
             <TextView
                 android:id="@+id/website_name"
                 android:layout_width="wrap_content"
@@ -151,16 +149,13 @@
 
             </FrameLayout>
 
-
-
-
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="1.8"
         android:orientation="horizontal">
         <LinearLayout
             android:layout_width="match_parent"

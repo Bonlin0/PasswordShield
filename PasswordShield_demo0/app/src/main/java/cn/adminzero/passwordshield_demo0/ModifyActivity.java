@@ -50,6 +50,9 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         username_button.setText(username);
         name_account.setText(name);
 
+        //初始化剪切板管理器
+        clipboardManager = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+
 
         passwod_button.setOnClickListener(new View.OnClickListener() {
             @Override
