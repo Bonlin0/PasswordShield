@@ -44,14 +44,14 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/auto_fill_header">
+    <!--<PreferenceCategory app:title="@string/auto_fill_header">-->
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="switch_auto_fill"
-            android:title="@string/auto_fill" />
+        <!--<SwitchPreference-->
+            <!--android:defaultValue="false"-->
+            <!--android:key="switch_auto_fill"-->
+            <!--android:title="@string/auto_fill" />-->
 
-    </PreferenceCategory>
+    <!--</PreferenceCategory>-->
 
     <PreferenceCategory app:title="@string/account_header">
 
