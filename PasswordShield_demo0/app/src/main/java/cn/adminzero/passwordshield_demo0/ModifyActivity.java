@@ -4,6 +4,8 @@ package cn.adminzero.passwordshield_demo0;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +22,9 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     private String website;
     private String note;
     private String name;
+    private ClipboardManager clipboardManager;
+    private ClipData clipData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +64,10 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.password_copy:
-                                Toast.makeText(ModifyActivity.this,"调用API把密码复制到剪切板",Toast.LENGTH_LONG).show();
+                                //复制到剪贴板
+                                clipData = ClipData.newPlainText("password_saved",password);
+                                clipboardManager.setPrimaryClip(clipData);
+                                //Toast.makeText(ModifyActivity.this,"调用API把密码复制到剪切板",Toast.LENGTH_LONG).show();
                                 break;
                             case R.id.password_display:
                                 // passwod_button.setText("123456789");

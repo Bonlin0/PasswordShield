@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity
             //fuck_database();
     }
     static {
-//        init_database();
+        init_database();
         storeAppInfo();
     }
 

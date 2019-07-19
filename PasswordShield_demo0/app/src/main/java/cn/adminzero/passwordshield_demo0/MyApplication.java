@@ -67,10 +67,10 @@ public class MyApplication extends Application {
             d(String.valueOf(isFirstLogin));
         }
 
-        if ("".equals(DB_FIRST)) {
-            DbUtil.deleteDatabase();
-//            DbUtil.fuck_database();
-        }
+//        if ("".equals(DB_FIRST)) {
+//            DbUtil.deleteDatabase();
+////            DbUtil.fuck_database();
+//        }
         //恢复初始化状态
         //myStorage.storeData(isFirst, "");
         d("进入主函数");
