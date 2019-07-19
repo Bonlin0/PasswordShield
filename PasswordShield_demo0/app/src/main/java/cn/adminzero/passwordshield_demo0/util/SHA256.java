@@ -27,7 +27,7 @@ public class SHA256 {
 
             byte[] hash = messageDigest.digest(str.getBytes("UTF-8"));
 
-            encdeStr = Hex.encodeHexString(hash);
+            encdeStr = new String(Hex.encodeHexString(hash));
 
         } catch (NoSuchAlgorithmException e) {
 
@@ -55,7 +55,7 @@ public class SHA256 {
 
             byte[] hash = messageDigest.digest(str.getBytes("UTF-8"));
 
-            encdeStr = Hex.encodeHexString(hash);
+            encdeStr = new String(Hex.encodeHexString(hash));
 
         } catch (NoSuchAlgorithmException e) {
 
