@@ -368,7 +368,7 @@ public class DbUtil {
     public static Bitmap drawableToBitmap(Drawable drawable) {
         int w = drawable.getIntrinsicWidth();
         int h = drawable.getIntrinsicHeight();
-        System.out.println("Drawable转Bitmap");
+//        System.out.println("Drawable转Bitmap");
         try {
             Bitmap.Config config =
                     drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888

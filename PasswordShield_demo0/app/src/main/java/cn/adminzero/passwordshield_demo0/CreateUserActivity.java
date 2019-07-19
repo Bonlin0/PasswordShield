@@ -15,6 +15,8 @@ import cn.adminzero.passwordshield_demo0.util.MyKeyStore;
 import cn.adminzero.passwordshield_demo0.util.MyStorage;
 import cn.adminzero.passwordshield_demo0.util.SHA256;
 
+import static cn.adminzero.passwordshield_demo0.db.DbUtil.init_database;
+
 public class CreateUserActivity extends AppCompatActivity {
 
     EditText masterPasswordEdit;
@@ -58,6 +60,8 @@ public class CreateUserActivity extends AppCompatActivity {
         sharedPreferenceEditor.apply();
 
         initKey(pKey);
+        //TODO 初始化数据库
+        init_database();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();

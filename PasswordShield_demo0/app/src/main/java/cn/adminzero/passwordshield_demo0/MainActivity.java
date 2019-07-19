@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Icon;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity
             //fuck_database();
     }
     static {
-        init_database();
+//        init_database();
         storeAppInfo();
     }
 
@@ -322,10 +323,37 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
-            Toast.makeText(MainActivity.this, R.string.about, Toast.LENGTH_SHORT).show();
+            //弹出关于信息的对话框
+
+            //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            //    设置Title的图标
+            builder.setIcon(R.mipmap.ic_launcher);
+            //    设置Title的内容
+            builder.setTitle(R.string.about_dialog_title);
+            //    设置Content来显示一个信息
+            builder.setMessage("A Password Manager powered by bio-auth. Developed by Bonlin0," +
+                    " SairenHecate, zhaojunchen, magicconch.\n\nAvenue: WHU CSE\nDate: 201907");
+            //    设置一个PositiveButton
+            builder.setPositiveButton("I see", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    //Toast.makeText(MainActivity.this, "positive: " + which, Toast.LENGTH_SHORT).show();
+                }
+            });
+            //    显示出该对话框
+            builder.show();
+
+            //Toast.makeText(MainActivity.this, R.string.about, Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.action_help) {
-            Toast.makeText(MainActivity.this, R.string.help, Toast.LENGTH_SHORT).show();
+            //弹出网页https://github.com/Bonlin0/PasswordShield
+            Intent intent_help = new Intent(Intent.ACTION_VIEW);
+            intent_help.setData(Uri.parse("https://github.com/Bonlin0/PasswordShield"));
+            startActivity(intent_help);
+            //Toast.makeText(MainActivity.this, R.string.help, Toast.LENGTH_SHORT).show();
             return true;
         }
 

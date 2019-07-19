@@ -146,6 +146,7 @@
     <string name="edit_delete">Delete</string>
     <string name="account_name">Name</string>
     <string name="Type_in_name">Type in the name</string>
+    <string name="about_dialog_title">About</string>
 
 
 </resources>

@@ -8,6 +8,7 @@ import cn.adminzero.passwordshield_demo0.util.MyKeyStore;
 import cn.adminzero.passwordshield_demo0.util.MyStorage;
 import cn.adminzero.passwordshield_demo0.util.SHA256;
 
+import static cn.adminzero.passwordshield_demo0.db.DbUtil.init_database;
 import static cn.adminzero.passwordshield_demo0.test.Test.testPre;
 import static cn.adminzero.passwordshield_demo0.util.LogUtils.d;
 import static cn.adminzero.passwordshield_demo0.util.LogUtils.t;
@@ -58,6 +59,7 @@ public class MyApplication extends Application {
         if ("".equals(initial)) {
             //进入初始化函数
 //            initApp();
+
             isFirstLogin=true;
             t(String.valueOf(isFirstLogin));
             d(String.valueOf(isFirstLogin));
