@@ -120,18 +120,39 @@
             </FrameLayout>
 
 
+
+
             <TextView
                 android:id="@+id/website_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/website" />
 
-            <EditText
-                android:id="@+id/website"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/www_example_com" />
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/website"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/www_example_com" />
+
+                <Button
+                    android:id="@+id/find_package_name"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/setting_dark"
+                    android:onClick="onClickFindPackageNameButton"/>
+
+            </FrameLayout>
+
+
+
 
         </LinearLayout>
     </LinearLayout>

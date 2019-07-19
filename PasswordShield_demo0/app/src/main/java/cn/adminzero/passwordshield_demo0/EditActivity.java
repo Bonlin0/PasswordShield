@@ -113,8 +113,20 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
                 break;
+            case 2:
+                if (resultCode == RESULT_OK) {
+                    website_text.setText(data.getStringExtra("uri_return"));
+
+                }
+                break;
             default:
 
         }
     }
+
+    public void onClickFindPackageNameButton(View view){
+        Intent installedAppIntent = new Intent(this, InstalledAppAcitivity.class);
+        startActivityForResult(installedAppIntent,2);
+    }
+
 }
