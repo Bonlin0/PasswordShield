@@ -332,8 +332,7 @@ public class MainActivity extends AppCompatActivity
             //    设置Title的内容
             builder.setTitle(R.string.about_dialog_title);
             //    设置Content来显示一个信息
-            builder.setMessage("A Password Manager powered by bio-auth. Developed by Bonlin0," +
-                    " SairenHecate, zhaojunchen, magicconch.\n\nAvenue: WHU CSE\nDate: 201907");
+            builder.setMessage(R.string.about_content);
             //    设置一个PositiveButton
             builder.setPositiveButton("I see", new DialogInterface.OnClickListener()
             {

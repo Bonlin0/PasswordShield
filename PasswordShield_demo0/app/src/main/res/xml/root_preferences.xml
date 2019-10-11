@@ -65,7 +65,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/others_header">
+    <!--<PreferenceCategory app:title="@string/others_header">
 
         <ListPreference
             android:defaultValue="English"
@@ -75,6 +75,6 @@
             android:title="Language"
             app:useSimpleSummaryProvider="true"/>
 
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 
 </androidx.preference.PreferenceScreen>
