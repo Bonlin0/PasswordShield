@@ -34,7 +34,29 @@ public class PasswordItem {
      */
     private String note;
 
+    /**
+     * 日期描述
+     */
+    private String recordtime;
+
+    /**
+     * important message
+     **/
+    private boolean isImportant;
+
+
     public PasswordItem() {
+        isImportant = false;//默认为flase
+
+    }
+
+
+    public void setImportant(boolean important) {
+        isImportant = important;
+    }
+
+    public boolean getImport() {
+        return isImportant;
     }
 
     public String getName() {
@@ -91,5 +113,13 @@ public class PasswordItem {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getTime() {
+        return recordtime;
+    }
+
+    public void setTime(String recordtime) {
+        this.recordtime = recordtime;
     }
 }

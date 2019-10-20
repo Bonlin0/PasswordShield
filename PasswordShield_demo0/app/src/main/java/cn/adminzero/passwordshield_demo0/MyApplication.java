@@ -3,6 +3,9 @@ package cn.adminzero.passwordshield_demo0;
 import android.app.Application;
 import android.content.Context;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import cn.adminzero.passwordshield_demo0.db.DbUtil;
 import cn.adminzero.passwordshield_demo0.util.MyKeyStore;
 import cn.adminzero.passwordshield_demo0.util.MyStorage;
@@ -26,9 +29,30 @@ public class MyApplication extends Application {
 
     public static Boolean isFirstLogin=true;
 
+    private static String nowdate;
 
 
     private MyStorage myStorage;
+
+    public static String getnowDate() {
+        return nowdate;
+    }
+
+    // int result = MyApplication.datediffer(PasswordItem.getTime())
+    public static int datediffer(String olddate) {
+        int datenumber = 0;
+        String year = nowdate.substring(0, 4);//年 当前
+        String year_old = olddate.substring(0, 4);//
+        datenumber += (Integer.valueOf(year) - Integer.valueOf(year_old)) * 365;
+        year = nowdate.substring(4, 6);
+        year_old = olddate.substring(4, 6);//
+        datenumber += (Integer.valueOf(year) - Integer.valueOf(year_old))*30;
+        year = nowdate.substring(6, 8);
+        year_old = olddate.substring(6, 8);//
+        datenumber += Integer.valueOf(year) - Integer.valueOf(year_old);
+        return datenumber;
+
+    }
 
 
     public static Context getContext() {
@@ -48,6 +72,21 @@ public class MyApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         //LitePal.initialize(context);
+        Calendar myCalendar = new GregorianCalendar();
+        nowdate = "";
+        int temp;
+        int date = myCalendar.get(Calendar.YEAR);
+        nowdate += String.valueOf(date);
+        date = myCalendar.get(Calendar.MONTH) + 1;
+        if (date < 10) {
+            nowdate += '0';
+        }
+        nowdate += String.valueOf(date);
+        date = myCalendar.get(Calendar.DAY_OF_MONTH);
+        if (date < 10) {
+            nowdate += '0';
+        }
+        nowdate += String.valueOf(date);
 
         myStorage = new MyStorage();
         String keyEnc = myStorage.getData(KEY);

@@ -69,7 +69,9 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
                 String input_note = note_text.getText().toString();
 
                 int input_type = 1;
-                AddAccount(input_account_name, input_account, input_password, input_type, input_website, input_note);
+                // TODO 添加 是否为二次加密！
+                boolean isImportant = false;
+                AddAccount(input_account_name, input_account, input_password, input_type, input_website, input_note,isImportant);
                 finish();
                 //    Toast.makeText(this, "账号" + input_account + "密码" + input_password + "网址" + input_website + "备注" + input_note, Toast.LENGTH_LONG).show();
                 break;

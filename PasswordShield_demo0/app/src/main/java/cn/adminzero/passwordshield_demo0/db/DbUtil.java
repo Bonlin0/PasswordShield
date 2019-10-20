@@ -13,6 +13,7 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -101,7 +102,7 @@ public class DbUtil {
      * 添加账户函数 提前需检查
      * 数据合法性,  防止崩溃
      */
-    public static boolean AddAccount(String name, String account, String password, int type, String uri, String note) {
+    public static boolean AddAccount(String name, String account, String password, int type, String uri, String note, boolean isImportant) {
 
         SQLiteDatabase db = getDatabase();
         password = new Encryption().encode(password);
@@ -109,10 +110,15 @@ public class DbUtil {
         if (TextUtils.isEmpty(note)) {
             note = "none";
         }
+        int temp = 0;
+        if (isImportant) {
+            temp = 1;
+        }
         try {
-            db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)",
-                    new String[]{name, account, password, String.valueOf(type), uri, note}
+            db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note, recordtime, isImportant) values (?,?,?,?,?,?,?,?)",
+                    new String[]{name, account, password, String.valueOf(type), uri, note, MyApplication.getnowDate(), String.valueOf(temp)}
             );
+
             return true;
         } catch (Exception e) {
             d("数据表PasswordItem插入失败");
@@ -120,7 +126,6 @@ public class DbUtil {
         }
 
         return false;
-
     }
 
     /**
@@ -150,6 +155,12 @@ public class DbUtil {
                 passwordItem.setType(cursor.getInt(cursor.getColumnIndex("type")));
                 passwordItem.setUri(cursor.getString(cursor.getColumnIndex("uri")));
                 passwordItem.setNote(cursor.getString(cursor.getColumnIndex("note")));
+                passwordItem.setTime(cursor.getString(cursor.getColumnIndex("recordtime")));
+                if (cursor.getInt(cursor.getColumnIndex("isImportant")) == 0)
+                    passwordItem.setImportant(false);
+                else
+                    passwordItem.setImportant(true);
+                Log.d("test", "Date" + MyApplication.datediffer(passwordItem.getTime()));
                 passwordItemList.add(passwordItem);
                 id++;
             } while (cursor.moveToNext());
@@ -168,7 +179,7 @@ public class DbUtil {
     }
 
     /**
-     * 根据uri筛选数据
+     * 根据uri筛选数据  TODO
      */
     public static List<PasswordItem> getPasswordItemByUri(String uri) {
         List<PasswordItem> passwordItemList = new ArrayList<PasswordItem>();
@@ -191,6 +202,12 @@ public class DbUtil {
                 passwordItem.setType(cursor.getInt(cursor.getColumnIndex("type")));
                 passwordItem.setUri(cursor.getString(cursor.getColumnIndex("uri")));
                 passwordItem.setNote(cursor.getString(cursor.getColumnIndex("note")));
+                passwordItem.setTime(cursor.getString(cursor.getColumnIndex("recordtime")));
+                if (cursor.getInt(cursor.getColumnIndex("isImportant")) == 0)
+                    passwordItem.setImportant(false);
+                else
+                    passwordItem.setImportant(true);
+                Log.d("test", "Date" + MyApplication.datediffer(passwordItem.getTime()));
                 passwordItemList.add(passwordItem);
                 id++;
             } while (cursor.moveToNext());
@@ -233,15 +250,15 @@ public class DbUtil {
         Encryption encryption = new Encryption();
 
         SQLiteDatabase db = getDatabase();
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"Telephone", "13778791018", encryption.encode("12345678"), String.valueOf(1), "com.android.providers.telephony", "手机默认"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"网易云音乐", "12345678@163.com", encryption.encode("82unuf32ny3yd"), String.valueOf(1), "com.netease.cloudmusic", "网易云"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"支付宝", "98326287@qq.com", encryption.encode("woaini111"), String.valueOf(1), "com.eg.android.AlipayGphone", "我的支付宝"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"QQ", "4865238221", encryption.encode("123qwe"), String.valueOf(1), "com.tencent.mobileqq", "QQ大号"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"Photos", "17702737629", encryption.encode("321www.."), String.valueOf(1), "com.google.android.videos", "相册"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"淘宝", "1372623452", encryption.encode("123rqw."), String.valueOf(1), "com.taobao.taobao", "剁剁剁"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"微信", "Hecate_sairen", encryption.encode("asdvxzzxv."), String.valueOf(1), "com.tencent.mm", "微信"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"百度云盘", "327865492@qq.com", encryption.encode("sgdsgsAC."), String.valueOf(1), "com.baidu.netdisk", "百度云资料"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note) values (?,?,?,?,?,?)", new String[]{"京东", "jingdong@gmail.com", encryption.encode("GVDSAGsfsd."), String.valueOf(1), "com.jingdong.app.mall", "买买买"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"Telephone", "13778791018", encryption.encode("12345678"), String.valueOf(1), "com.android.providers.telephony", "手机默认", MyApplication.getnowDate(), "0"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"网易云音乐", "12345678@163.com", encryption.encode("82unuf32ny3yd"), String.valueOf(1), "com.netease.cloudmusic", "网易云", MyApplication.getnowDate(), "0"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"支付宝", "98326287@qq.com", encryption.encode("woaini111"), String.valueOf(1), "com.eg.android.AlipayGphone", "我的支付宝", MyApplication.getnowDate(), "0"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"QQ", "4865238221", encryption.encode("123qwe"), String.valueOf(1), "com.tencent.mobileqq", "QQ大号", MyApplication.getnowDate(), "0"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"Photos", "17702737629", encryption.encode("321www.."), String.valueOf(1), "com.google.android.videos", "相册", MyApplication.getnowDate(), "0"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"淘宝", "1372623452", encryption.encode("123rqw."), String.valueOf(1), "com.taobao.taobao", "剁剁剁", MyApplication.getnowDate(), "0"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"微信", "Hecate_sairen", encryption.encode("asdvxzzxv."), String.valueOf(1), "com.tencent.mm", "微信", MyApplication.getnowDate(), "0"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"百度云盘", "327865492@qq.com", encryption.encode("sgdsgsAC."), String.valueOf(1), "com.baidu.netdisk", "百度云资料", MyApplication.getnowDate(), "0"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"京东", "jingdong@gmail.com", encryption.encode("GVDSAGsfsd."), String.valueOf(1), "com.jingdong.app.mall", "买买买", MyApplication.getnowDate(), "0"});
 
     }
 

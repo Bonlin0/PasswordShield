@@ -29,7 +29,9 @@ public class MyDatabaseHelp extends SQLiteOpenHelper {
                     "   uri               TEXT    NOT NULL," +
                     "   type              INT     NOT NULL," +
                     "   note              TEXT            ," +
-                    "constraint pk primary key (account,uri)"+
+                    "   recordtime        TEXT    NOT NULL," +
+                    "   isImportant       INT     NOT NULL," +
+                    "constraint pk primary key (account,uri)" +
                     ");";
 
     private static final String ControledApp =

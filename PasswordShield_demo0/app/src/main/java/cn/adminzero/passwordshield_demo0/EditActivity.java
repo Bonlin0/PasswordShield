@@ -86,8 +86,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 String input_note = note_text.getText().toString();
                 //删除原来的列表
                 deletePasswordItem(account_key, website_key);
+                // TODO 判断是否为二次加密
+                boolean isImportant =  false;
                 //加入新的
-                AddAccount(input_account_name, input_account, input_password, 1, input_website, input_note);
+                AddAccount(input_account_name, input_account, input_password, 1, input_website, input_note,isImportant);
                 Toast.makeText(this, "已保存：" + "账号" + input_account + "密码" + input_password + "网址" + input_website + "备注" + input_note, Toast.LENGTH_LONG).show();
                 finish();
                 break;
