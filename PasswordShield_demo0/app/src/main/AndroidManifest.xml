@@ -19,7 +19,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".InstalledAppAcitivity"></activity>
+        <activity
+            android:name=".ImportantPasswordActivity"
+            android:label="@string/title_activity_important_password"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".InstalledAppAcitivity" />
 
         <service
             android:name=".IconFinderService"

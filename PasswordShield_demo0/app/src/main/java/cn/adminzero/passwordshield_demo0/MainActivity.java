@@ -86,8 +86,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity_debug";
-    //    private String[] data = {"Apple", "Banana", "Orange", "Watermelon", "Pear",
-//            "Grape", "Pineapple", "Strawberry", "Cherry", "Mango"};
+
     private List<PasswordItem> accountList = new ArrayList<PasswordItem>();
     public long current_date;
 
@@ -148,9 +147,9 @@ public class MainActivity extends AppCompatActivity
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final PasswordItem account = accountList.get(position);
                 AlertDialog.Builder dialog=new AlertDialog.Builder(MainActivity.this);
-                dialog.setTitle("Delete the account");
-                dialog.setMessage("Are you sure to delete the account information?");
-                dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                dialog.setTitle("删除该密码条目");
+                dialog.setMessage("您确定要删除该密码条目吗?");
+                dialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         deletePasswordItem(account.getAccount(),account.getUri());
@@ -161,7 +160,7 @@ public class MainActivity extends AppCompatActivity
                         finish();
                     }
                 });
-                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                dialog.setNegativeButton("否", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Toast.makeText(MainActivity.this,"Cancel",Toast.LENGTH_LONG).show();
@@ -363,6 +362,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
+
+    // 这部分是关于drawer内元素被点击的代码
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -380,7 +381,13 @@ public class MainActivity extends AppCompatActivity
             Intent settingsIntent = new Intent
                     (this, SettingsActivity.class);
             startActivity(settingsIntent);
-        } else if (id == R.id.nav_lock_now) {
+
+        } else if (id == R.id.nav_important_password) {
+            Intent ImportantPasswordIntent = new Intent
+                    (this, ImportantPasswordActivity.class);
+            startActivity(ImportantPasswordIntent);
+
+        }else if (id == R.id.nav_lock_now) {
             finish();
             //TODO 补充锁定方法，而不是直接退出
         }

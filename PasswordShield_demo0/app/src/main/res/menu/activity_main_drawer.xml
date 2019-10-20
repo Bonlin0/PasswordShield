@@ -9,6 +9,10 @@
             android:icon="@android:drawable/ic_lock_idle_lock"
             android:title="@string/password_vault" />
         <item
+            android:id="@+id/nav_important_password"
+            android:icon="@android:drawable/ic_input_get"
+            android:title="@string/important_password" />
+        <item
             android:id="@+id/nav_password_generator"
             android:icon="@android:drawable/stat_notify_sync_noanim"
             android:title="@string/menu_password_generator" />
