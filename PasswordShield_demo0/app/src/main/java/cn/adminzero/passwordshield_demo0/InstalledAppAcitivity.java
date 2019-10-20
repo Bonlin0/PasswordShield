@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -26,7 +27,7 @@ public class InstalledAppAcitivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_installed_app_acitivity);
 
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         dataList = fetchAllAppInfo();
         AppDataAdapter adapter = new AppDataAdapter(this, R.layout.list_item, dataList);
         ListView listView = (ListView) findViewById(R.id.list_main);

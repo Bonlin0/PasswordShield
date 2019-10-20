@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         /*添加适配器的这段代码必须放在setContentView 的后面,不然会闪退*/
       /*  ListView listView=(ListView) findViewById(R.id.list_view);
         adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data);

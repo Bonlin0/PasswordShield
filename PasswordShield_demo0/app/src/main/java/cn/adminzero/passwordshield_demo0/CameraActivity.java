@@ -67,6 +67,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         final SharedPreferences.Editor sharedPreferenceEditor;
         sharedPreferenceEditor = sharedPreferences.edit();
         //检查配置中是否存在该键 如果不存在

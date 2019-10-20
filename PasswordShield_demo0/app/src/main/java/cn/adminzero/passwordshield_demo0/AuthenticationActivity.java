@@ -42,6 +42,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_authentication);
         Toolbar toolbar = findViewById(R.id.toolbar_authentication);
         setSupportActionBar(toolbar);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         //设置指纹识别相关
         unlockWithFingerprintButton = findViewById(R.id.unlock_with_fingerprint_button);
         unlockWithFaceButton = findViewById(R.id.unlock_with_face_button);

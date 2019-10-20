@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -59,7 +60,7 @@ public class PasswordGeneratorActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         //ActionBar actionBar = getSupportActionBar();
         //actionBar.setDisplayHomeAsUpEnabled(true);
 

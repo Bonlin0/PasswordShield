@@ -32,7 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.settings, new SettingsFragment())
                 .commit();
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         Toolbar toolbar = findViewById(R.id.toolbar_settings);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

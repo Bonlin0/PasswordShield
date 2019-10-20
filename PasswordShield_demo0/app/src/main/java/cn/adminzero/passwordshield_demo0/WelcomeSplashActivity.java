@@ -33,6 +33,7 @@ public class WelcomeSplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
        // Boolean isFirstLogin = true;
         Log.d(TAG, "onCreate: 进入了onCreate");
         setContentView(R.layout.activity_welcome_splash);

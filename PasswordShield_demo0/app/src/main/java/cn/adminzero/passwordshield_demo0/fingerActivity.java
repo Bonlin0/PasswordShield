@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +23,7 @@ public class fingerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_finger);
         mTextView = findViewById(R.id.text_view);
         mButton = findViewById(R.id.button);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         mManager = BiometricPromptManager.from(this);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("SDK version is " + Build.VERSION.SDK_INT);

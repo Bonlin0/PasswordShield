@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -41,7 +42,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         Button back_button=(Button) findViewById(R.id.back_account);
         Button name_account=(Button) findViewById(R.id.account_name);
 
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         note_button.setText(note);
         website_button.setText(website);
         passwod_button.setText("●●●●●●●●●●");

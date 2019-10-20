@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,7 +29,7 @@ public class CreateUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_user);
         Toolbar toolbar = findViewById(R.id.toolbar_create_user);
         setSupportActionBar(toolbar);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
     }
 
