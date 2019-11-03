@@ -98,7 +98,6 @@ public class MyApplication extends Application {
         if ("".equals(initial)) {
             //进入初始化函数
 //            initApp();
-
             isFirstLogin=true;
             t(String.valueOf(isFirstLogin));
             d(String.valueOf(isFirstLogin));

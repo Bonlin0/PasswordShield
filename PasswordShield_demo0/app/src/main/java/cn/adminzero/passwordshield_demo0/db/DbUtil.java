@@ -178,6 +178,112 @@ public class DbUtil {
 
     }
 
+
+    //返回不重要的
+    public static List<PasswordItem> initplainPasswordListView() {
+        List<PasswordItem> passwordItemList = new ArrayList<PasswordItem>();
+        SQLiteDatabase db = getDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM PasswordItem ORDER BY type, uri;", null);
+        Encryption encryption = new Encryption();
+        String ciperText;
+        int id = 1;
+        if (cursor.moveToFirst()) {
+            do {
+                PasswordItem passwordItem = new PasswordItem();
+                passwordItem.setId(id);
+                passwordItem.setName(cursor.getString(cursor.getColumnIndex("name")));
+                passwordItem.setAccount(cursor.getString(cursor.getColumnIndex("account")));
+                /*-------------------------------------------*/
+                //解密password
+                /*-------------------------------------------*/
+                ciperText = cursor.getString(cursor.getColumnIndex("password"));
+                passwordItem.setPassword(encryption.decode(ciperText));
+                passwordItem.setType(cursor.getInt(cursor.getColumnIndex("type")));
+                passwordItem.setUri(cursor.getString(cursor.getColumnIndex("uri")));
+                passwordItem.setNote(cursor.getString(cursor.getColumnIndex("note")));
+                passwordItem.setTime(cursor.getString(cursor.getColumnIndex("recordtime")));
+                if (cursor.getInt(cursor.getColumnIndex("isImportant")) == 0)
+                    passwordItem.setImportant(false);
+                else
+                    passwordItem.setImportant(true);
+                Log.d("test", "Date" + MyApplication.datediffer(passwordItem.getTime()));
+
+                if(passwordItem.getImport()==false)
+                {
+                    passwordItemList.add(passwordItem);
+                    id++;
+                }
+
+            } while (cursor.moveToNext());
+        }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        if (db != null) {
+            db.close();
+        }
+
+        return passwordItemList;
+
+    }
+
+
+    //返回不重要的
+    public static List<PasswordItem> initimportantPasswordListView() {
+        List<PasswordItem> passwordItemList = new ArrayList<PasswordItem>();
+        SQLiteDatabase db = getDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM PasswordItem ORDER BY type, uri;", null);
+        Encryption encryption = new Encryption();
+        String ciperText;
+        int id = 1;
+        if (cursor.moveToFirst()) {
+            do {
+                PasswordItem passwordItem = new PasswordItem();
+                passwordItem.setId(id);
+                passwordItem.setName(cursor.getString(cursor.getColumnIndex("name")));
+                passwordItem.setAccount(cursor.getString(cursor.getColumnIndex("account")));
+                /*-------------------------------------------*/
+                //解密password
+                /*-------------------------------------------*/
+                ciperText = cursor.getString(cursor.getColumnIndex("password"));
+                passwordItem.setPassword(encryption.decode(ciperText));
+                passwordItem.setType(cursor.getInt(cursor.getColumnIndex("type")));
+                passwordItem.setUri(cursor.getString(cursor.getColumnIndex("uri")));
+                passwordItem.setNote(cursor.getString(cursor.getColumnIndex("note")));
+                passwordItem.setTime(cursor.getString(cursor.getColumnIndex("recordtime")));
+                if (cursor.getInt(cursor.getColumnIndex("isImportant")) == 0)
+                    passwordItem.setImportant(false);
+                else
+                    passwordItem.setImportant(true);
+                Log.d("test", "Date" + MyApplication.datediffer(passwordItem.getTime()));
+
+                if(passwordItem.getImport()==true)
+                {
+                    passwordItemList.add(passwordItem);
+                    id++;
+                }
+
+            } while (cursor.moveToNext());
+        }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        if (db != null) {
+            db.close();
+        }
+
+        return passwordItemList;
+
+    }
+
+
+
     /**
      * 根据uri筛选数据  TODO
      */
@@ -251,11 +357,11 @@ public class DbUtil {
 
         SQLiteDatabase db = getDatabase();
         db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"Telephone", "13778791018", encryption.encode("12345678"), String.valueOf(1), "com.android.providers.telephony", "手机默认", MyApplication.getnowDate(), "0"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"网易云音乐", "12345678@163.com", encryption.encode("82unuf32ny3yd"), String.valueOf(1), "com.netease.cloudmusic", "网易云", MyApplication.getnowDate(), "0"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"支付宝", "98326287@qq.com", encryption.encode("woaini111"), String.valueOf(1), "com.eg.android.AlipayGphone", "我的支付宝", MyApplication.getnowDate(), "0"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"QQ", "4865238221", encryption.encode("123qwe"), String.valueOf(1), "com.tencent.mobileqq", "QQ大号", MyApplication.getnowDate(), "0"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"网易云音乐", "12345678@163.com", encryption.encode("82unuf32ny3yd"), String.valueOf(1), "com.netease.cloudmusic", "网易云", MyApplication.getnowDate(), "1"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"支付宝", "98326287@qq.com", encryption.encode("woaini111"), String.valueOf(1), "com.eg.android.AlipayGphone", "我的支付宝", MyApplication.getnowDate(), "1"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"QQ", "4865238221", encryption.encode("123qwe"), String.valueOf(1), "com.tencent.mobileqq", "QQ大号", MyApplication.getnowDate(), "1"});
         db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"Photos", "17702737629", encryption.encode("321www.."), String.valueOf(1), "com.google.android.videos", "相册", MyApplication.getnowDate(), "0"});
-        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"淘宝", "1372623452", encryption.encode("123rqw."), String.valueOf(1), "com.taobao.taobao", "剁剁剁", MyApplication.getnowDate(), "0"});
+        db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"淘宝", "1372623452", encryption.encode("123rqw."), String.valueOf(1), "com.taobao.taobao", "剁剁剁", "20181011", "0"});
         db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"微信", "Hecate_sairen", encryption.encode("asdvxzzxv."), String.valueOf(1), "com.tencent.mm", "微信", MyApplication.getnowDate(), "0"});
         db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"百度云盘", "327865492@qq.com", encryption.encode("sgdsgsAC."), String.valueOf(1), "com.baidu.netdisk", "百度云资料", MyApplication.getnowDate(), "0"});
         db.execSQL("INSERT INTO PasswordItem (name, account, password, type, uri, note,recordtime,isImportant) values (?,?,?,?,?,?,?,?)", new String[]{"京东", "jingdong@gmail.com", encryption.encode("GVDSAGsfsd."), String.valueOf(1), "com.jingdong.app.mall", "买买买", MyApplication.getnowDate(), "0"});
@@ -398,13 +504,10 @@ public class DbUtil {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-
         }
-
         return null;
 
     }
-
 
     public static Drawable bitmapToDrawable(Bitmap bitmap) {
         if (bitmap != null)

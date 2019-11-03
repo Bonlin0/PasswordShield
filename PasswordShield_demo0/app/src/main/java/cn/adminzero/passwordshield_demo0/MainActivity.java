@@ -1,9 +1,11 @@
 package cn.adminzero.passwordshield_demo0;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.content.Context;
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MainActivity_debug";
 
-    private List<PasswordItem> accountList = new ArrayList<PasswordItem>();
+    public  static List<PasswordItem> accountList = new ArrayList<PasswordItem>();
     public long current_date;
 
     //public  Boolean isFirstLogin = true;
@@ -109,18 +112,9 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        /*添加适配器的这段代码必须放在setContentView 的后面,不然会闪退*/
-      /*  ListView listView=(ListView) findViewById(R.id.list_view);
-        adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data);
-        listView.setAdapter(adapter);
-        */
-        /*添加适配器的这段代码必须放在setContentView 的后面,不然会闪退*/
-      /*  ListView listView=(ListView) findViewById(R.id.list_view);
-        adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data);
-        listView.setAdapter(adapter);
-        */
-        // initAccounts();
-        accountList = DbUtil.initPasswordListView();
+
+        accountList = DbUtil.initplainPasswordListView();
+
         MainActivity.List_adapter list_adapter = new MainActivity.List_adapter(MainActivity.this, R.layout.listview_image, accountList);
         ListView listView = (ListView) findViewById(R.id.mainlist_view);
         listView.setAdapter(list_adapter);
@@ -177,9 +171,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent_to_Add = new Intent(MainActivity.this, AddAccountActivity.class);
+                intent_to_Add.putExtra("isimportant",'0');
                 startActivity(intent_to_Add);
             }
         });
+
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout_main);
         NavigationView navigationView = findViewById(R.id.nav_view_main);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -190,10 +187,7 @@ public class MainActivity extends AppCompatActivity
 
         //获取用户名并显示
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        //SharedPreferences.Editor sharedPreferenceEditor;
-        //sharedPreferenceEditor = sharedPreferences.edit();
-        //sharedPreferenceEditor.putString("preference_username",usernameInput);
-        //sharedPreferenceEditor.apply();
+
         String usernameToDisplay = sharedPreferences.getString("preference_username", "Default Username");
         TextView drawerUsername = navigationView.findViewById(R.id.drawer_username_text);
         if (drawerUsername != null) {
@@ -218,7 +212,7 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        accountList = DbUtil.initPasswordListView();
+        accountList = DbUtil.initplainPasswordListView();
         MainActivity.List_adapter list_adapter = new MainActivity.List_adapter(MainActivity.this, R.layout.listview_image, accountList);
         ListView listView = (ListView) findViewById(R.id.mainlist_view);
         listView.setAdapter(list_adapter);
@@ -277,16 +271,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-//        //获取用户名并显示
-//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        //SharedPreferences.Editor sharedPreferenceEditor;
-//        //sharedPreferenceEditor = sharedPreferences.edit();
-//        //sharedPreferenceEditor.putString("preference_username",usernameInput);
-//        //sharedPreferenceEditor.apply();
-//        String usernameToDisplay = sharedPreferences.getString("preference_username","Default Username");
-//        TextView drawerUsername = findViewById(R.id.drawer_username);
-//        if(drawerUsername!=null){
-//            drawerUsername.setText(usernameToDisplay);
+
 //        }
     }
 
@@ -406,6 +391,7 @@ public class MainActivity extends AppCompatActivity
             resourceId = textViewResourseId;
         }
 
+        @SuppressLint("ResourceAsColor")
         @Override
         public View getView(final int position, View convertView, final ViewGroup parent) {
             PasswordItem account = getItem(position);//获取当前项的Account实例
@@ -417,212 +403,35 @@ public class MainActivity extends AppCompatActivity
             ImageView accountImage = (ImageView) view.findViewById(R.id.list_image);
             TextView accountName = (TextView) view.findViewById(R.id.list_name);
             TextView account_username=(TextView) view.findViewById(R.id.list_account);
-         /*   new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        PasswordItem account = getItem(position);//获取当前项的Account实例
-                        View view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
-                        ImageView accountImage = (ImageView) view.findViewById(R.id.list_image);
-                        Bitmap bm = IconFinder.getBitmap(account.getUri());
-                        accountImage.setImageBitmap(bm);
 
-                        //   imageView.buildDrawingCache();
-                        //  Bitmap bm = imageView.getDrawingCache();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-            //   accountImage.setImageBitmap(IconFinder.lastFetchBitmap);
-            */
 
 
             accountImage.setImageDrawable(fetchAppInfo(account.getUri()).getIcon());
 //            accountImage.setImageResource(setImageId(account.getAccount()));
             accountName.setText(account.getName());
             account_username.setText(account.getAccount());
+            //debug
+            System.out.println(TAG+" "+account.getName()+"date "+ account.getTime()+"  "+MyApplication.getnowDate());
+           //如果密码时间超过 90天 就红色标记
+            int sub=0;
+            int old=Integer.valueOf(account.getTime());
+            int now=Integer.valueOf(MyApplication.getnowDate());
+            sub=(old/10000-now/10000)*365+ ((old%10000)/100-(now%10000)/100)+((old%100)-(now%100));
+            sub=0-sub;
+            System.out.println(TAG+""+sub);
+
+            if(sub>=90)
+            {
+                account_username.setBackgroundColor(Color.YELLOW);
+                accountName.setBackgroundColor(Color.YELLOW);
+                Toast.makeText(MainActivity.this,account.getName()+"密码过期，请及时修改",Toast.LENGTH_LONG).show();
+            }
             return view;
         }
 
         /**
          * 给列表项分配对应的图片  然后在getView 中创建适配器时调用
          */
-        private int setImageId(String account_name) {
-            int imageId = 0;
-            int c = (int) account_name.charAt(0);
-          /*  if(c>=65 &&c<=90){
-                imageId=(65-c)+R.drawable.a;
-            }
-            else if(c>=91&&c<=122){
-                imageId=(91-c)+R.drawable.a;
-            }
-            else imageId=R.drawable.a;
-            */
-            switch (c) {
-                case 65:
-                    imageId = R.drawable.a;
-                    break;
-                case 66:
-                    imageId = R.drawable.b;
-                    break;
-                case 67:
-                    imageId = R.drawable.c;
-                    break;
-                case 68:
-                    imageId = R.drawable.d;
-                    break;
-                case 69:
-                    imageId = R.drawable.e;
-                    break;
-                case 70:
-                    imageId = R.drawable.f;
-                    break;
-                case 71:
-                    imageId = R.drawable.g;
-                    break;
-                case 72:
-                    imageId = R.drawable.h;
-                    break;
-                case 73:
-                    imageId = R.drawable.i;
-                    break;
-                case 74:
-                    imageId = R.drawable.j;
-                    break;
-                case 75:
-                    imageId = R.drawable.k;
-                    break;
-                case 76:
-                    imageId = R.drawable.l;
-                    break;
-                case 77:
-                    imageId = R.drawable.m;
-                    break;
-                case 78:
-                    imageId = R.drawable.n;
-                    break;
-                case 79:
-                    imageId = R.drawable.o;
-                    break;
-                case 80:
-                    imageId = R.drawable.p;
-                    break;
-                case 81:
-                    imageId = R.drawable.q;
-                    break;
-                case 82:
-                    imageId = R.drawable.r;
-                    break;
-                case 83:
-                    imageId = R.drawable.s;
-                    break;
-                case 84:
-                    imageId = R.drawable.t;
-                    break;
-                case 85:
-                    imageId = R.drawable.u;
-                    break;
-                case 86:
-                    imageId = R.drawable.v;
-                    break;
-                case 87:
-                    imageId = R.drawable.w;
-                    break;
-                case 88:
-                    imageId = R.drawable.x;
-                    break;
-                case 89:
-                    imageId = R.drawable.y;
-                    break;
-                case 90:
-                    imageId = R.drawable.z;
-                    break;
-                case 97:
-                    imageId = R.drawable.a;
-                    break;
-                case 98:
-                    imageId = R.drawable.b;
-                    break;
-                case 99:
-                    imageId = R.drawable.c;
-                    break;
-                case 100:
-                    imageId = R.drawable.d;
-                    break;
-                case 101:
-                    imageId = R.drawable.e;
-                    break;
-                case 102:
-                    imageId = R.drawable.f;
-                    break;
-                case 103:
-                    imageId = R.drawable.g;
-                    break;
-                case 104:
-                    imageId = R.drawable.h;
-                    break;
-                case 105:
-                    imageId = R.drawable.i;
-                    break;
-                case 106:
-                    imageId = R.drawable.j;
-                    break;
-                case 107:
-                    imageId = R.drawable.k;
-                    break;
-                case 108:
-                    imageId = R.drawable.l;
-                    break;
-                case 109:
-                    imageId = R.drawable.m;
-                    break;
-                case 110:
-                    imageId = R.drawable.n;
-                    break;
-                case 111:
-                    imageId = R.drawable.o;
-                    break;
-                case 112:
-                    imageId = R.drawable.p;
-                    break;
-                case 113:
-                    imageId = R.drawable.q;
-                    break;
-                case 114:
-                    imageId = R.drawable.r;
-                    break;
-                case 115:
-                    imageId = R.drawable.s;
-                    break;
-                case 116:
-                    imageId = R.drawable.t;
-                    break;
-                case 117:
-                    imageId = R.drawable.u;
-                    break;
-                case 118:
-                    imageId = R.drawable.v;
-                    break;
-                case 119:
-                    imageId = R.drawable.w;
-                    break;
-                case 120:
-                    imageId = R.drawable.x;
-                    break;
-                case 121:
-                    imageId = R.drawable.y;
-                    break;
-                case 122:
-                    imageId = R.drawable.z;
-                    break;
-                default:
-                    imageId = R.drawable.add;
-                    break;
-            }
-            return imageId;
-        }
 
 
     }

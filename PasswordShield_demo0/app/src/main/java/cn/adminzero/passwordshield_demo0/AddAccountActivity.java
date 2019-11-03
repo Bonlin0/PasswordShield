@@ -19,6 +19,7 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
     private EditText website_text;
     private EditText note_text;
     private EditText name_text;
+    private boolean isImportant = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,13 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
         //requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏  好像没用
         setContentView(R.layout.activity_add_account);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        Intent intent=getIntent();
+
+       String isimpor=intent.getStringExtra("important");
+        if("1".equals(isimpor)){
+            isImportant = true;
+        }
+
         Button cancel = (Button) findViewById(R.id.cancel);
         Button commit = (Button) findViewById(R.id.commit);
         Button creat_password = (Button) findViewById(R.id.creat_password);
@@ -70,7 +78,8 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
 
                 int input_type = 1;
                 // TODO 添加 是否为二次加密！
-                boolean isImportant = false;
+
+
                 AddAccount(input_account_name, input_account, input_password, input_type, input_website, input_note,isImportant);
                 finish();
                 //    Toast.makeText(this, "账号" + input_account + "密码" + input_password + "网址" + input_website + "备注" + input_note, Toast.LENGTH_LONG).show();
