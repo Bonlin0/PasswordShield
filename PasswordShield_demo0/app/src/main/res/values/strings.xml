@@ -133,7 +133,7 @@
     <string name="username_not_valid">请确保您的用户名不少于3个字符并重试。</string>
 
     <string name="no_remarks">No remarks</string>
-    <string name="back_password">return the password</string>
+    <string name="back_password">返回口令</string>
 
     <string name="wrong_master_password">你输入的主口令错误，请重试。</string>
 
