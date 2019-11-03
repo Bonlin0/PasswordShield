@@ -147,7 +147,7 @@
 
     <string name="about_content">A Password Manager powered by bio-auth. Developed by Bonlin0,
                      SairenHecate, zhaojunchen, magicconch.\n\nAvenue: WHU CSE\nDate: 201907</string>
-    <string name="title_activity_important_password">ImportantPasswordActivity</string>
+    <string name="title_activity_important_password">重要口令</string>
 
     <string name="important_password">重要口令</string>
 
